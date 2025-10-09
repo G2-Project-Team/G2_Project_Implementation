@@ -1,23 +1,91 @@
+<!--import Header Placeholder-->
+<!--php Read Database and assign values to variables-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Account Listings</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link to the external CSS file -->
-</head>
-<body>
-    <!--Header-->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account Details</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
 
-    <!-- Title Section and profile pic-->
-    <div class="account-listings-container">
-        <h2>Account Listings</h2>
-        <p>This is a placeholder for account listings.</p>
-        <a href="index.html" class="button">Back to Home</a>
+    /* Main container */
+    .container {
+      display: flex;
+      height: 100vh; /* Full height */
+    }
+    
+    /* Left Panel for links */
+    .nav {
+      width: 200px;           /* fixed width */
+      background-color: white;
+      color: black;
+      padding: 20px;
+      border-right: 3px solid black;
+      display:flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .nav a {
+      color: black;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 50px;
+      font-size: 20px;
+    }
+
+    .nav a:hover {
+      text-decoration: underline; /* Underline as described in Wireframe  */
+    }
+
+    /* Right Panel for content*/
+    .content {
+      flex: 1; /* fills the remaining space */
+      padding: 20px;
+      background-color: white;
+    }
+  </style>
+</head>
+
+<body>
+
+<!--Navigation Links need to be set up in index?                                 -->
+  <div class="container" >
+    <div class="nav" style="font-size: 30px; font-weight: bold;">
+      <a href="account-details.html" style="margin-top: 250px;">Account Details</a>
+      <a href="#" style="margin-bottom: 50px;">Listings</a>
+      <a href="#" style="margin-bottom: 50px;">Saved Listings</a>
     </div>
 
-    <!--User data list / left screen -->
+    <!--Right Panel-->
+    <div class="content">
+  <div style="display: flex; justify-content: center; margin-top: 250px;">
+    <h1>Listings</h1>
+  </div>
 
-    <!--Land details / right screen -->
-</body>
-</html>
+  <!-- Data Table -->
+  <div style="margin-top: 50px; display: flex; justify-content: center;">
+    <table style="width: 75%; border-collapse: collapse; text-align: center;">
+      <thead>
+        <tr style="background-color: #f2f2f2;">
+          <th style="padding: 12px; border-bottom: 2px solid #000;">Date</th>
+          <th style="padding: 12px; border-bottom: 2px solid #000;">Location</th>
+          <th style="padding: 12px; border-bottom: 2px solid #000;">Documents/Info</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Example rows, replace with database content in foreach loop | Not sure if 4th row required for edit logo? -->
+        <tr>
+          <td style="padding: 10px; border-bottom: 1px solid #ddd;">2025-10-09</td>
+          <td style="padding: 10px; border-bottom: 1px solid #ddd;">Glasgow</td>
+          <td style="padding: 10px; border-bottom: 1px solid #ddd;">View</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+    
