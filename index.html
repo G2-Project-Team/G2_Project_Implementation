@@ -6,16 +6,42 @@
     <title>Home Page</title>
     <link rel="stylesheet" href="styles.css"> <!-- Link to the external CSS file -->
 </head>
-<body>
 
-    <div class="login-container">
+<header>
+    <nav>
+        <ul>
+            <li class="logo">
+                <img src="home.jpg" alt="homepage" class="logo"> <!-- Stock logo image -->
+            </li>
+
+            <li class="title">
+                <h1>Home Page</h1>
+            </li>
+
+            <li style="float:right" class = "accounts">    
+                <div>
+        <a href="#" class="access">Login</a>
+        <p class="access">|</p>
+        <a href="#" class="access">Register</a>
+        </div>
+            </li>
+        </ul>
+    </nav>
+
+</header>
+
+<body>
+    <section class="left-container">
+    <h2>Solar Info</h2>
+    </section>
+
+    <section class="image-container">
         <img src="homepage.png" alt="homepage" class="pic"> <!-- Stock homepage image -->
-        <h2>Welcome</h2>
-        
-        <form action="#" method="POST">   
-            <button type="submit" class="button">Login</button>
-        </form>
-    </div>
+    </section>
+
+    <section class="right-container">
+        <h2>Wind Tubrine Info</h2>
+    </section>
 
 </body>
 </html>
