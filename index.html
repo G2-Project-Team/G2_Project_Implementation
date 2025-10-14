@@ -1,47 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link to the external CSS file -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home Page</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 
-<header>
-    <nav>
-        <ul>
-            <li class="logo">
-                <img src="home.jpg" alt="homepage" class="logo"> <!-- Stock logo image -->
-            </li>
-
-            <li class="title">
-                <h1>Home Page</h1>
-            </li>
-
-            <li style="float:right" class = "accounts">    
-                <div>
-        <a href="#" class="access">Login</a>
-        <p class="access">|</p>
-        <a href="#" class="access">Register</a>
-        </div>
-            </li>
-        </ul>
-    </nav>
-
-</header>
 
 <body>
-    <section class="left-container">
-    <h2>Solar Info</h2>
-    </section>
+  <header>
 
-    <section class="image-container">
-        <img src="homepage.png" alt="homepage" class="pic"> <!-- Stock homepage image -->
-    </section>
+    <nav class="navbar">
+      <div class="nav-left">
+        <a href="index.html">
+          <img src="logo.png" alt="Logo" class="nav-image" />
+        </a>
+      </div>
 
-    <section class="right-container">
-        <h2>Wind Tubrine Info</h2>
-    </section>
+      <div class="nav-center">
+        <h1 class="page-title">Home</h1>
+      </div>
+
+      <div class="nav-right">
+        <a href="login.html" class="nav-link">Login</a>
+        <a href="register.html" class="nav-link">Register</a>
+      </div>
+    </nav>
+  </header>
+
+
+  <section class="content-wrapper">
+    <div class="left-container">
+      <h2>Solar Info</h2>
+      <p>Details about solar energy systems...</p>
+    </div>
+
+    <div class="image-container">
+      <img src="homepage.png" alt="homepage" class="pic" />
+    </div>
+
+    <div class="right-container">
+      <h2>Wind Turbine Info</h2>
+      <p>Details about wind turbine technology...</p>
+    </div>
+  </section>
+
 
 </body>
 </html>
