@@ -71,3 +71,71 @@ h2 {
 .create-account:hover {
     text-decoration: underline;
 }
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 30px;
+  background-color: #f8f8f8;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-left .nav-image {
+  height: 40px;
+  cursor: pointer;
+}
+
+.nav-center {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.page-title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* Right: Links */
+.nav-right {
+  display: flex;
+  gap: 15px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #0077cc;
+  font-weight: 500;
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+}
+
+.content-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px;
+  gap: 20px;
+}
+
+.left-container,
+.right-container {
+  flex: 1;
+  color: #2e8b57;
+  padding: 20px;
+}
+
+.image-container {
+  flex: 1;
+  text-align: center;
+}
+
+.pic {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
