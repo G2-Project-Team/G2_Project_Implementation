@@ -58,8 +58,8 @@
   <div class="container" >
     <div class="nav" style="font-size: 30px; font-weight: bold;">
       <a href="account-details.html" style="margin-top: 250px;">Account Details</a>
-      <a href="#" style="margin-bottom: 50px;">Listings</a>
-      <a href="#" style="margin-bottom: 50px;">Saved Listings</a>
+      <a href="account-listings.html" style="margin-bottom: 50px;">Listings</a>
+      <a href="saved-listings.html" style="margin-bottom: 50px;">Saved Listings</a>
     </div>
 
 <!--Right Panel (Profile Pic(changeable), Email(changeable), Primary Land Holding(changeable), Account Description?, Logout)-->
@@ -77,17 +77,29 @@
   
    <div style="display: flex; flex-direction: column; align-items: center;">
     <h2>Primary Land Holding: Land Holding Name</h2>
-    <a href="#" style="font-size: 16px; color: blue; margin-top: -20px;">Change Primary land Holding</a>
+    <a href="#" style="font-size: 16px; color: blue; margin-top: -20px;">Change Primary land Holding</a> <!-- Link required to update page -->
   </div>
 
   <div style="display: flex; flex-direction: column; align-items: center;">
     <textarea rows="4" cols="50" placeholder="Account Description..." style="margin-top: 50px;"></textarea>
-    <a href="#" style="font-size: 16px; color: blue; margin-top: 50px;">Logout</a><!--Add confirmation dialog-->
+
+    <a href="javascript:logout();" style="font-size: 16px; color: blue; margin-top: 50px;">LogoutX</a><!--Add confirmation dialog, Link required to forgot password page-->
   </div>
 </div>
 
+  <script>
+    // JavaScript for any interactivity if needed in future
 
-  
+    function logout() {
+      // Confirm logout action
+      if (confirm("Are you sure you want to logout?")) {
+        // Redirect to logout page or perform logout action
+        window.location.href = "logout.html"; // Example redirect
+        alert("You have been logged out.");
+      }
+      
+    }
+  </script>
 
 </body>
 </html>
