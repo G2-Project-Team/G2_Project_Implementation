@@ -1,3 +1,7 @@
+DROP DATABASE IF EXISTS `websitedb`;
+CREATE DATABASE `websitedb`;
+USE `websitedb`;
+
 CREATE TABLE `Users` (
   `UserID` int PRIMARY KEY AUTO_INCREMENT,
   `Username` varchar(255) UNIQUE NOT NULL,
@@ -23,7 +27,7 @@ CREATE TABLE `LandListings` (
   `ListingID` int PRIMARY KEY AUTO_INCREMENT,
   `GridSquareID` int NOT NULL,
   `TimeCreated` timestamp DEFAULT (now()),
-  `TimeUpdated` timestamp,
+  `TimeUpdated` timestamp DEFAULT (now()),
   `UserID` int NOT NULL
 );
 
