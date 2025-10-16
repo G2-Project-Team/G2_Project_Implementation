@@ -6,6 +6,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Home Page</title>
   <link rel="stylesheet" href="styles2.css" />
+
+  
+    <script>
+    localStorage.setItem("isLoggedIn", "false");
+
+    document.addEventListener("DOMContentLoaded", () => {
+     const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+     const authLinks = document.getElementById("auth-links");
+
+   if (isLoggedIn) {
+    authLinks.style.display = "none";
+  } else {
+    authLinks.style.display = "block";
+  }
+  });
+  </script>
+
+  
 </head>
 
 
