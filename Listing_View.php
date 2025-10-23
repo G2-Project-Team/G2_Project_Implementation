@@ -13,7 +13,7 @@
         <header class="header">
             <img src="logo-placeholder.png" alt="Logo" class="logo">
             <nav>
-                <a href="listings.html">All Listings</a>
+                <a href="listings.php">All Listings</a>
                 <a href="#">Profile</a>
                 <a href="#">Logout</a>
             </nav>

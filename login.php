@@ -20,8 +20,8 @@
         </form>
 
         <!-- Link to direct to forgotten password page -->
-        <a href="forgotten-password.html" class="forgot-password">Forgotten Password?</a>
-        <a href="#" class="create-account">Create an Account</a>
+        <a href="forgotten-password.php" class="forgot-password">Forgotten Password?</a>
+        <a href="register.php" class="create-account">Create an Account</a>
     </div>
 
 </body>

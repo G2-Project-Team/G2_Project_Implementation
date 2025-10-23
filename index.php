@@ -65,8 +65,8 @@
 
       <div class="nav-right">
         <div id="auth-links">
-        <a href="login.html" class="nav-link">Login</a>
-        <a href="register.html" class="nav-link">Register</a>
+        <a href="login.php" class="nav-link">Login</a>
+        <a href="register.php" class="nav-link">Register</a>
         </div>
       </div>
     </nav>

@@ -18,7 +18,7 @@
         </p>
 
         <!-- Link back to login page -->
-        <a href="login.html" class="forgot-password">Back to Login</a>
+        <a href="login.php" class="forgot-password">Back to Login</a>
     </div>
 
 </body>

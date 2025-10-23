@@ -69,8 +69,8 @@
 
         <div id="messageArea" class="message">Saved listings updated</div>
 
-        <a href="heatmap.html" class="button">Back to Heatmap</a>
-        <a href="edit listing.html" class="button">Edit a Listing</a>
+        <a href="heatmap.php" class="button">Back to Heatmap</a>
+        <a href="edit-listing.php" class="button">Edit a Listing</a>
     </div>
 
     <script>

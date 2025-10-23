@@ -60,8 +60,8 @@
             <!-- Feedback message -->
             <div id="messageArea" class="message" style="opacity:0;"></div>
 
-            <a href="welcome.html" class="button">Back to Welcome</a>
-            <a href="saved listings.html" class="button">View Saved Listings</a>
+            <a href="index.php" class="button">Back to Welcome</a>
+            <a href="saved-listings.php" class="button">View Saved Listings</a>
         </form>
     </div>
 

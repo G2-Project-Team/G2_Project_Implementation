@@ -26,8 +26,8 @@
         <h2>Reset Your Password</h2>
 
         <!-- Password reset form -->
-        <!-- Redirects to reset-success.html after simulated success -->
-        <form id="resetForm" action="reset-success.html" method="GET">
+        <!-- Redirects to reset-success.php after simulated success -->
+        <form id="resetForm" action="reset-success.php" method="GET">
             <input type="email" id="email" name="email" placeholder="Enter your email address" class="input-field" required>
             <button type="submit" class="button">Send Reset Link</button>
         </form>
@@ -36,7 +36,7 @@
         <div id="message" class="message">Please enter a valid email address.</div>
 
         <!-- Link back to the login page -->
-        <a href="login.html" class="forgot-password">Back to Login</a>
+        <a href="login.php" class="forgot-password">Back to Login</a>
     </div>
 
     <!-- Simple validation and feedback script
