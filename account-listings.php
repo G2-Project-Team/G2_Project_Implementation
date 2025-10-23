@@ -57,9 +57,9 @@
 <!--Navigation Links need to be set up in index?                                 -->
   <div class="container" >
     <div class="nav" style="font-size: 30px; font-weight: bold;">
-      <a href="account-details.html" style="margin-top: 250px;">Account Details</a>
-      <a href="account-listings.html" style="margin-bottom: 50px;">Listings</a>
-      <a href="saved-listings.html"margin-bottom: 50px;">Saved Listings</a>
+      <a href="account-details.php" style="margin-top: 250px;">Account Details</a>
+      <a href="account-listings.php" style="margin-bottom: 50px;">Listings</a>
+      <a href="saved-listings.php" style="margin-bottom: 50px;">Saved Listings</a>
     </div>
 
     <!--Right Panel-->
