@@ -83,12 +83,12 @@
 
   <div style="display: flex; flex-direction: column; align-items: center;">
     <h2>Email: <?php echo $email; ?></h2>
-    <a href="#" style="font-size: 16px; color: blue; margin-top: -20px;">Change Email</a>
+    <a href="javascript:changeEmail();" style="font-size: 16px; color: blue; margin-top: -20px;">Change Email</a>
   </div>
   
    <div style="display: flex; flex-direction: column; align-items: center;">
     <h2>Username: <?php echo $username; ?></h2>
-    <a href="#" style="font-size: 16px; color: blue; margin-top: -20px;">Change Primary land Holding</a> <!-- Link required to update page -->
+    
   </div>
 
   <div style="display: flex; flex-direction: column; align-items: center;">
@@ -100,7 +100,35 @@
 
   <script>
     // JavaScript for any interactivity if needed in future
+    // JavaScript function to change email
+    function changeEmail() {
+      var newEmail = prompt("Enter your new email address:");
+  if (newEmail) {
+    fetch('changeEmailController.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: 'newEmail=' + encodeURIComponent(newEmail)
+    })
+    .then(response => response.text())
+    .then(data => {
+      alert(data); // Server’s response message
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('An error occurred while changing your email.');
+    });
+    // If successful, update session email variable and display message
+    <?php if (isset($_SESSION['email'])): ?>
+      alert("Your email has been changed to: <?php echo $_SESSION['email']; ?>");
+    <?php endif; ?>
 
+    // If successful, update displayed email
+    document.querySelector('h2').innerText = "Email: " + newEmail;
+
+  }
+}
+
+    // JavaScript function to logout
     function logout() {
       // Confirm logout action
       if (confirm("Are you sure you want to logout?")) {
