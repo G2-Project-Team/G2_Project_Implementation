@@ -1,6 +1,17 @@
 <!--import Header Placeholder-->
 <!--php Read Database and assign values to variables-->
-
+<?php
+    session_start();  
+    // Check if user is logged in
+    if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+        // If not logged in, redirect to login page
+        header('Location: login.php');
+        exit();
+    }
+  $uid = $_SESSION['id'];
+  $username = $_SESSION['username'];
+  $email = $_SESSION['email'];
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -71,12 +82,12 @@
   </div>
 
   <div style="display: flex; flex-direction: column; align-items: center;">
-    <h2>Email: User@example.com</h2>
+    <h2>Email: <?php echo $email; ?></h2>
     <a href="#" style="font-size: 16px; color: blue; margin-top: -20px;">Change Email</a>
   </div>
   
    <div style="display: flex; flex-direction: column; align-items: center;">
-    <h2>Primary Land Holding: Land Holding Name</h2>
+    <h2>Username: <?php echo $username; ?></h2>
     <a href="#" style="font-size: 16px; color: blue; margin-top: -20px;">Change Primary land Holding</a> <!-- Link required to update page -->
   </div>
 
@@ -94,7 +105,7 @@
       // Confirm logout action
       if (confirm("Are you sure you want to logout?")) {
         // Redirect to logout page or perform logout action
-        window.location.href = "index.php"; // Example redirect
+        window.location.href = "logoutController.php"; // Example redirect
         alert("You have been logged out.");
       }
       
