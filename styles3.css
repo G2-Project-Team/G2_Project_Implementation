@@ -1,0 +1,24 @@
+    /* Page layout */
+    body { font-family: Arial, sans-serif; margin: 0; padding: 18px; background: #f5f6f8; color: #222; }
+    header { margin-bottom: 12px; }
+    header h1 { margin: 0 0 6px 0; font-size: 20px; }
+    header p { margin: 0; color: #555; font-size: 13px; }
+
+    /* Map card centered and medium sized */
+    .map-card {
+      width: 640px;              /* change width to taste (e.g., 480, 560, 640) */
+      max-width: 100%;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      overflow: hidden;
+      margin: 18px auto;
+      padding: 0;
+    }
+    #map { width: 100%; height: 420px; display: block; } /* medium map height */
+
+    /* Keep attribution visible but unobtrusive */
+    .leaflet-control-attribution { font-size: 11px; background: rgba(255,255,255,0.85); padding: 2px 6px; border-radius: 3px; }
+
+    /* Subtle popup styling */
+    .leaflet-popup-content-wrapper { font-size: 13px; }
