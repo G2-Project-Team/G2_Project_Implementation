@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
           weight: 0.8,
           color: '#000',
           opacity: 0.35,
-          fillOpacity: 0.42
+          fillOpacity: 0.5
         };
       },
 
