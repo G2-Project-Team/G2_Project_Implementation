@@ -119,7 +119,7 @@
     });
     // If successful, update session email variable and display message
     <?php if (isset($_SESSION['email'])): ?>
-      alert("Your email has been changed to: <?php echo $_SESSION['email']; ?>");
+      alert("Your email has been changed!");
     <?php endif; ?>
 
     // If successful, update displayed email
