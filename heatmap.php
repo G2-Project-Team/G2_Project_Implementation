@@ -46,11 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // average the values for the cell
       const lum = rows.reduce((s, r) => s + Number(r.average_luminosity), 0) / rows.length
 
-      features.push({
-        type: 'Feature',
-        properties: { grid_id: gridId, average_luminosity: lum },
-        geometry: { type: 'Polygon', coordinates: [coords] }
-      });
+      features.push({type: 'Feature', properties: { grid_id: gridId, average_luminosity: lum }, geometry: { type: 'Polygon', coordinates: [coords] }});
     }
     return { type: 'FeatureCollection', features };
   }
@@ -71,23 +67,14 @@ document.addEventListener('DOMContentLoaded', () => {
       pane: 'gridPane',
       style: feature => {
         const v = feature.properties.average_luminosity;
-        return {
-          fillColor: scale(v).hex(),
-          weight: 0.8,
-          color: '#000',
-          opacity: 0.35,
-          fillOpacity: 0.5
-        };
+        return {fillColor: scale(v).hex(), weight: 0.8, color: '#000', opacity: 0.35, fillOpacity: 0.5};
       },
 
       // creates popup on click, and grid outline on mouseover
       onEachFeature: (feature, layer) => {
         const p = feature.properties;
         layer.bindPopup(`<b>Grid</b>: ${p.grid_id}<br><b>Luminosity</b>: ${p.average_luminosity}`);
-        layer.on({
-          mouseover(e) { e.target.setStyle({ weight: 1.8, color: '#111' }); },
-          mouseout(e) { geojsonLayer.resetStyle(e.target); }
-        });
+        layer.on({mouseover(e) { e.target.setStyle({ weight: 1.8, color: '#111' }); }, mouseout(e) { geojsonLayer.resetStyle(e.target); }});
       }
     }).addTo(map);
 
