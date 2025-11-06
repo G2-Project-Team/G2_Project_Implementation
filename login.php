@@ -29,7 +29,7 @@
             <input type="text" name="username" placeholder="Username" class="input-field" required>
             <input type="password" name="password" placeholder="Password" class="input-field" required>
             
-            <button type="submit" class="button">Login</button>
+            <input type="submit" value="Login">Login</button>
         </form>
 
         <!-- Link to direct to forgotten password page -->

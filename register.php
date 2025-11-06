@@ -23,7 +23,7 @@
             <input type="text" name="username" placeholder="Username" class="input-field" required>
             <input type="password" name="password" placeholder="Password" class="input-field" required>
 
-            <button type="submit" class="button">Sign Up</button>
+            <input type="submit" class="button">Sign Up</button>
         </form>
 
         <a href="login.php" class="create-account">Already have an account? Login here</a>
