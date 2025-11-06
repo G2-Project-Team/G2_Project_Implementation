@@ -29,7 +29,7 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     exit();
 }
 
-$stmt = $link->prepare("SELECT UserID FROM users WHERE email = ? OR username = ?");
+$stmt = $link->prepare("SELECT user_id FROM users WHERE email = ? OR username = ?");
 $stmt->bind_param('ss', $email, $username);
 
 $stmt->execute();

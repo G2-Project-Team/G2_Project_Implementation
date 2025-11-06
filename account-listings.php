@@ -6,7 +6,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Account Details</title>
+  <title>Account Listings</title>
   <style>
     body {
       margin: 0;
@@ -65,7 +65,7 @@
     <!--Right Panel-->
     <div class="content">
   <div style="display: flex; justify-content: center; margin-top: 250px;">
-    <h1>Listings</h1>
+    <h1>My Listings</h1>
   </div>
 
   <!-- Data Table -->

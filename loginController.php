@@ -17,7 +17,7 @@ if (empty($_POST['username']) || empty($_POST['password'])) {
 }
 
 // Prepare an SQL statement to prevent SQL injection when checking user credentials
-if ($stmt = $link->prepare('SELECT UserId, Email, Username, Password FROM users WHERE Username = ?')) {
+if ($stmt = $link->prepare('SELECT user_id, email, username, password FROM users WHERE username = ?')) {
     // Bind the input email parameter to the SQL query and execute the statement
     $stmt->bind_param('s', $_POST['username']);
     $stmt->execute();
