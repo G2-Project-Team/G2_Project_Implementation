@@ -1,3 +1,13 @@
+    <?php
+        session_start();
+        # Check if user is logged in
+        if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true
+        ) {
+            # If logged in, redirect to account details page
+            header('Location: account-details.php');
+            exit();
+        }
+    ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

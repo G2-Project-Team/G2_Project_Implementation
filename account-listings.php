@@ -1,5 +1,22 @@
 <!--import Header Placeholder-->
 <!--php Read Database and assign values to variables-->
+<?php
+$comments = $conn->prepare("SELECT
+listing_id,
+time_created,
+time_updated,
+description,
+grid_id
+FROM listings
+WHERE user_id = ?
+"
+);
+
+$comments->bind_param("i", $uid);
+$comments->execute(); // Execute the query
+$comments->store_result(); // Store the result for later use
+$comments->bind_result($listingId, $timeCreated, $timeUpdated, $description, $gridId); // Bind the results to variables
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -79,12 +96,32 @@
         </tr>
       </thead>
       <tbody>
-        <!-- Example rows, replace with database content in foreach loop | Not sure if 4th row required for edit logo? -->
-        <tr>
-          <td style="padding: 10px; border-bottom: 1px solid #ddd;">2025-10-09</td>
-          <td style="padding: 10px; border-bottom: 1px solid #ddd;">Glasgow</td>
-          <td style="padding: 10px; border-bottom: 1px solid #ddd;">View</td>
-        </tr>
+        <!-- Example rows, replace with database content in foreach loop ? 
+         Need delete controller-->
+        <?php while($listings->fetch()) : ?>
+      <tr>
+        <td class="px-4 py-2 font-medium whitespace-nowrap text-gray-900"> <?= htmlspecialchars($timeCreated) ?></td>
+        <td class="px-4 py-2 whitespace-nowrap text-gray-700"><?= htmlspecialchars($description) ?></td>
+        <td class="px-4 py-2 whitespace-nowrap text-gray-700"><?= htmlspecialchars($gridId) ?></td>
+        <td class="px-4 py-2 whitespace-nowrap">
+          <a
+            href="edit-listing?lid=<?=$listingId?>"
+            class="inline-block rounded-sm bg-indigo-600 px-4 py-2 text-xs font-medium text-white hover:bg-indigo-700"
+          >
+            Edit
+          </a>
+          <a
+
+            href="delete-listing?lid=<?=$listingId?>"
+            class="inline-block rounded-sm bg-indigo-600 px-4 py-2 text-xs font-medium text-white hover:bg-indigo-700"
+          >
+            Delete
+          </a>
+        
+
+        </td>
+      </tr>
+      <?php endwhile ?>
       </tbody>
     </table>
   </div>
