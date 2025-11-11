@@ -23,10 +23,12 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
-  localStorage.setItem("viewSwitch", "false");
+  localStorage.setItem("viewSwitch", "true");
   
   const viewSwitch = localStorage.getItem("viewSwitch") === "true";
 
+  // ************************ //
+  if (viewSwitch) {
 
   // gets the csv dataset
   const csvUrl = 'grid_coords_with_weather.csv';
@@ -50,32 +52,18 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       // average the values for the cell
-      if (viewSwitch) {
         const lum = rows.reduce((s, r) => s + Number(r.average_luminosity), 0) / rows.length
 
         features.push({type: 'Feature', properties: { grid_id: gridId, average_luminosity: lum }, geometry: { type: 'Polygon', coordinates: [coords] }});
-      
-      } else {
-        const wind = rows.reduce((s, r) => s + Number(r.average_windspeed), 0) / rows.length
-
-        features.push({type: 'Feature', properties: { grid_id: gridId, average_windspeed: wind }, geometry: { type: 'Polygon', coordinates: [coords] }});
-      
-      }
       }
     return { type: 'FeatureCollection', features };
   }
 
   // draw the grid, style it, and lock view to the grid area
   function renderChoropleth(geojson) {
-    if (viewSwitch) {
     const vals = geojson.features.map(f => f.properties.average_luminosity);
     const min = Math.min(...vals), max = Math.max(...vals);
     const scale = chroma.scale(['#440154','#3b528b','#21918c','#5ec962','#fde725']).domain([min, max]);
-    } else {
-    const vals = geojson.features.map(f => f.properties.average_windspeed);
-    const min = Math.min(...vals), max = Math.max(...vals);
-    const scale = chroma.scale(['#440154','#3b528b','#21918c','#5ec962','#fde725']).domain([min, max]);
-    }
 
     if (!map.getPane('gridPane')) {
       map.createPane('gridPane');
@@ -83,30 +71,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // create the geojson layer and keep a reference named 'geojsonLayer'
-    if (viewSwitch) {
     const geojsonLayer = L.geoJSON(geojson, {
       pane: 'gridPane',
       style: feature => {
         const v = feature.properties.average_luminosity;
         return {fillColor: scale(v).hex(), weight: 0.8, color: '#000', opacity: 0.35, fillOpacity: 0.5};
       },
-    } else {
-    const geojsonLayer = L.geoJSON(geojson, {
-      pane: 'gridPane',
-      style: feature => {
-        const v = feature.properties.average_windspeed;
-        return {fillColor: scale(v).hex(), weight: 0.8, color: '#000', opacity: 0.35, fillOpacity: 0.5};
-      },
-    }
-    
+
       // creates popup on click, and grid outline on mouseover
       onEachFeature: (feature, layer) => {
         const p = feature.properties;
-        if (viewSwitch) {
-            layer.bindPopup(`<b>Grid</b>: ${p.grid_id}<br><b>Luminosity</b>: ${p.average_luminosity}`);
-        } else {
-            layer.bindPopup(`<b>Grid</b>: ${p.grid_id}<br><b>WindSpeed</b>: ${p.average_windspeed}`);
-        }
+        layer.bindPopup(`<b>Grid</b>: ${p.grid_id}<br><b>Luminosity</b>: ${p.average_luminosity}`);
         layer.on({mouseover(e) { e.target.setStyle({ weight: 1.8, color: '#111' }); }, mouseout(e) { geojsonLayer.resetStyle(e.target); }});
       }
     }).addTo(map);
@@ -140,7 +115,99 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     error: err => { console.error('CSV load error', err); alert('Failed to load CSV: ' + err.message); }
   });
+
+
+  // ******************** //
+  } else {
+
+  // gets the csv dataset
+  const csvUrl = 'grid_coords_with_weather.csv';
+
+  // create the map inside the #map element
+  const map = L.map('map', { zoomControl: false, attributionControl: false, preferCanvas: true }).setView([55.79, -4.55], 12);
+
+  // add OpenStreetMap tiles
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19, attribution: '© OpenStreetMap contributors'}).addTo(map);
+
+  // turn CSV rows into GeoJSON polygons
+  function buildGeoJSON(groups) {
+    const features = [];
+    for (const gridId in groups) {
+      const rows = groups[gridId].sort((a, b) => Number(a.point_order) - Number(b.point_order));
+      const coords = rows.map(r => [Number(r.lon), Number(r.lat)]);
+
+      // close the polygon if needed
+      if (!(coords[0][0] === coords[coords.length - 1][0] && coords[0][1] === coords[coords.length - 1][1])) {
+        coords.push(coords[0]);
+      }
+
+      // average the values for the cell
+        const lum = rows.reduce((s, r) => s + Number(r.average_windspeed), 0) / rows.length
+
+        features.push({type: 'Feature', properties: { grid_id: gridId, average_windspeed: wind }, geometry: { type: 'Polygon', coordinates: [coords] }});
+      }
+    return { type: 'FeatureCollection', features };
+  }
+
+  // draw the grid, style it, and lock view to the grid area
+  function renderChoropleth(geojson) {
+    const vals = geojson.features.map(f => f.properties.average_windspeed);
+    const min = Math.min(...vals), max = Math.max(...vals);
+    const scale = chroma.scale(['#440154','#3b528b','#21918c','#5ec962','#fde725']).domain([min, max]);
+
+    if (!map.getPane('gridPane')) {
+      map.createPane('gridPane');
+      map.getPane('gridPane').style.zIndex = 400;
+    }
+
+    // create the geojson layer and keep a reference named 'geojsonLayer'
+    const geojsonLayer = L.geoJSON(geojson, {
+      pane: 'gridPane',
+      style: feature => {
+        const v = feature.properties.average_windspeed;
+        return {fillColor: scale(v).hex(), weight: 0.8, color: '#000', opacity: 0.35, fillOpacity: 0.5};
+      },
+
+      // creates popup on click, and grid outline on mouseover
+      onEachFeature: (feature, layer) => {
+        const p = feature.properties;
+        layer.bindPopup(`<b>Grid</b>: ${p.grid_id}<br><b>Windspeed</b>: ${p.average_windspeed}`);
+        layer.on({mouseover(e) { e.target.setStyle({ weight: 1.8, color: '#111' }); }, mouseout(e) { geojsonLayer.resetStyle(e.target); }});
+      }
+    }).addTo(map);
+
+    // Fit to bounds and lock view
+    const bounds = geojsonLayer.getBounds();
+    map.fitBounds(bounds, { padding: [10, 10] });
+    map.setMaxBounds(bounds.pad(0));
+    const currentZoom = map.getZoom();
+    map.setMinZoom(currentZoom);
+    map.setMaxZoom(currentZoom);
+    map.dragging.disable();
+    map.touchZoom.disable();
+    map.doubleClickZoom.disable();
+    map.scrollWheelZoom.disable();
+    map.boxZoom.disable();
+    map.keyboard.disable();
+    map.off();
+  }
+
+  // load the CSV, group rows by grid_id, then render
+  Papa.parse(csvUrl, {
+    download: true,
+    header: true,
+    complete: results => {
+      const data = results.data.filter(r => r && r.grid_id);
+      const groups = {};
+      data.forEach(row => { const id = String(row.grid_id); (groups[id] ??= []).push(row); });
+      const geojson = buildGeoJSON(groups);
+      renderChoropleth(geojson);
+    },
+    error: err => { console.error('CSV load error', err); alert('Failed to load CSV: ' + err.message); }
+  });
+  }
 });
 </script>
 </body>
 </html>
+
