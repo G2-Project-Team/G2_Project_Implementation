@@ -13,7 +13,10 @@
 </head>
 <body>
   <header>
-    <h1>Heatmap — Grid Luminosity</h1>
+    <h1>Heatmap</h1>
+      <div>
+      <button id="viewToggle" type="button" aria-pressed="false">Toggle view</button>
+      </div>
   </header>
 
   <div class="map-card">
@@ -22,15 +25,22 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  let viewSwitch = true;
-
-  const toggleBtn = document.getElementById('toggleBtn');
-
-  toggleBtn.addEventListener('click', () => {
-    viewSwitch = !viewSwitch;
-  })
 
   const viewSwitch = localStorage.getItem("viewSwitch") === "true";
+
+
+  // Toggles the bool viewSwitch variable to show either windspeed or luminosity
+  const toggleBtn = document.getElementById('viewToggle');
+  if (toggleBtn) {
+    toggleBtn.textContent = viewSwitch ? 'Show Windspeed' : 'Show Luminosity';
+    toggleBtn.setAttribute('aria-pressed', String(viewSwitch));
+    toggleBtn.addEventListener('click', () => {
+      localStorage.setItem('viewSwitch', String(!viewSwitch));
+      location.reload();
+    });
+  }
+
+
 
   // ************************ //
   if (viewSwitch) {
@@ -213,8 +223,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 </script>
-
-<button id="toggleBtn">Toggle Boolean</button>
 
 </body>
 </html>
