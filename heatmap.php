@@ -22,9 +22,14 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+  let viewSwitch = true;
 
-  localStorage.setItem("viewSwitch", "true");
-  
+  const toggleBtn = document.getElementById('toggleBtn');
+
+  toggleBtn.addEventListener('click', () => {
+    viewSwitch = !viewSwitch;
+  })
+
   const viewSwitch = localStorage.getItem("viewSwitch") === "true";
 
   // ************************ //
@@ -208,6 +213,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 </script>
+
+<button id="toggleBtn">Toggle Boolean</button>
+
 </body>
 </html>
-
