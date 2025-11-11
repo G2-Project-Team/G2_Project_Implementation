@@ -4,7 +4,7 @@ session_start();
 $uid = $_SESSION['id'];
 $newEmail = $_POST['newEmail'];
 
-        $query = "UPDATE users SET email = ? WHERE UserID = ?";
+        $query = "UPDATE users SET email = ? WHERE user_id = ?";
         $stmt = $link->prepare($query);
         $stmt->bind_param("si", $newEmail, $uid);
         $stmt->execute();
