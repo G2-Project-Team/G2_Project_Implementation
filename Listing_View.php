@@ -14,8 +14,8 @@
             <img src="logo-placeholder.png" alt="Logo" class="logo">
             <nav>
                 <a href="listings.php">All Listings</a>
-                <a href="#">Profile</a>
-                <a href="#">Logout</a>
+                <a href="account-details.php">Profile</a>
+                <a href="index.php">Logout</a>
             </nav>
         </header>
 
@@ -69,3 +69,4 @@
 
 </body>
 </html>
+
