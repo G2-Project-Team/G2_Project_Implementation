@@ -22,6 +22,12 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+
+  localStorage.setItem("viewSwitch", "false");
+  
+  const viewSwitch = localStorage.getItem("viewSwitch") === "true";
+
+
   // gets the csv dataset
   const csvUrl = 'grid_coords_with_weather.csv';
 
@@ -44,10 +50,18 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       // average the values for the cell
-      const lum = rows.reduce((s, r) => s + Number(r.average_luminosity), 0) / rows.length
+      if (viewSwitch) {
+        const lum = rows.reduce((s, r) => s + Number(r.average_luminosity), 0) / rows.length
 
-      features.push({type: 'Feature', properties: { grid_id: gridId, average_luminosity: lum }, geometry: { type: 'Polygon', coordinates: [coords] }});
-    }
+        features.push({type: 'Feature', properties: { grid_id: gridId, average_luminosity: lum }, geometry: { type: 'Polygon', coordinates: [coords] }});
+      
+      } else {
+        const lum = rows.reduce((s, r) => s + Number(r.average_windspeed), 0) / rows.length
+
+        features.push({type: 'Feature', properties: { grid_id: gridId, average_windspeed: wind }, geometry: { type: 'Polygon', coordinates: [coords] }});
+      
+      }
+      }
     return { type: 'FeatureCollection', features };
   }
 
@@ -73,7 +87,11 @@ document.addEventListener('DOMContentLoaded', () => {
       // creates popup on click, and grid outline on mouseover
       onEachFeature: (feature, layer) => {
         const p = feature.properties;
-        layer.bindPopup(`<b>Grid</b>: ${p.grid_id}<br><b>Luminosity</b>: ${p.average_luminosity}`);
+        if (viewSwitch) {
+            layer.bindPopup(`<b>Grid</b>: ${p.grid_id}<br><b>Luminosity</b>: ${p.average_luminosity}`);
+        } else {
+            layer.bindPopup(`<b>Grid</b>: ${p.grid_id}<br><b>WindSpeed</b>: ${p.average_windspeed}`);
+        }
         layer.on({mouseover(e) { e.target.setStyle({ weight: 1.8, color: '#111' }); }, mouseout(e) { geojsonLayer.resetStyle(e.target); }});
       }
     }).addTo(map);
@@ -111,3 +129,4 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 </body>
 </html>
+
