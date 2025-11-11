@@ -62,11 +62,12 @@
                         </tbody>
                     </table>
                 </div>
-                <a href="listings.html" class="button">Back to All Listings</a>
+                <a href="listings.php" class="button">Back to All Listings</a>
             </main>
         </div>
     </div>
 
 </body>
 </html>
+
 
