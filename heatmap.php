@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function renderChoropleth(geojson) {
     const vals = geojson.features.map(f => f.properties.average_luminosity);
     const min = Math.min(...vals), max = Math.max(...vals);
-    const scale = chroma.scale(['#440154','#3b528b','#21918c','#5ec962','#fde725']).domain([min, max]);
+    const scale = chroma.scale(['#EFFE26','#FEC726','#FE9526','#FE5F26','#FE2626']).domain([min, max]);
 
     if (!map.getPane('gridPane')) {
       map.createPane('gridPane');
@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       // average the values for the cell
-        const lum = rows.reduce((s, r) => s + Number(r.average_windspeed), 0) / rows.length
+        const wind = rows.reduce((s, r) => s + Number(r.average_windspeed), 0) / rows.length
 
         features.push({type: 'Feature', properties: { grid_id: gridId, average_windspeed: wind }, geometry: { type: 'Polygon', coordinates: [coords] }});
       }
