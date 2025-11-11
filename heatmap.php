@@ -83,13 +83,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // create the geojson layer and keep a reference named 'geojsonLayer'
+    if (viewSwitch) {
     const geojsonLayer = L.geoJSON(geojson, {
       pane: 'gridPane',
       style: feature => {
         const v = feature.properties.average_luminosity;
         return {fillColor: scale(v).hex(), weight: 0.8, color: '#000', opacity: 0.35, fillOpacity: 0.5};
       },
-
+    } else {
+    const geojsonLayer = L.geoJSON(geojson, {
+      pane: 'gridPane',
+      style: feature => {
+        const v = feature.properties.average_windspeed;
+        return {fillColor: scale(v).hex(), weight: 0.8, color: '#000', opacity: 0.35, fillOpacity: 0.5};
+      },
+    }
+    
       // creates popup on click, and grid outline on mouseover
       onEachFeature: (feature, layer) => {
         const p = feature.properties;
