@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
         features.push({type: 'Feature', properties: { grid_id: gridId, average_luminosity: lum }, geometry: { type: 'Polygon', coordinates: [coords] }});
       
       } else {
-        const lum = rows.reduce((s, r) => s + Number(r.average_windspeed), 0) / rows.length
+        const wind = rows.reduce((s, r) => s + Number(r.average_windspeed), 0) / rows.length
 
         features.push({type: 'Feature', properties: { grid_id: gridId, average_windspeed: wind }, geometry: { type: 'Polygon', coordinates: [coords] }});
       
@@ -67,9 +67,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // draw the grid, style it, and lock view to the grid area
   function renderChoropleth(geojson) {
+    if (viewSwitch) {
     const vals = geojson.features.map(f => f.properties.average_luminosity);
     const min = Math.min(...vals), max = Math.max(...vals);
     const scale = chroma.scale(['#440154','#3b528b','#21918c','#5ec962','#fde725']).domain([min, max]);
+    } else {
+    const vals = geojson.features.map(f => f.properties.average_windspeed);
+    const min = Math.min(...vals), max = Math.max(...vals);
+    const scale = chroma.scale(['#440154','#3b528b','#21918c','#5ec962','#fde725']).domain([min, max]);
+    }
 
     if (!map.getPane('gridPane')) {
       map.createPane('gridPane');
@@ -129,4 +135,3 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 </body>
 </html>
-
