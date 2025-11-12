@@ -2,27 +2,47 @@
 include 'connect_db.php';
 session_start();
 $uid = $_SESSION['id'];
+$title = trim($_POST['listingTitle']);
+$desc = trim($_POST['listingDescription']);
+
 
 // Validate and sanitise POST content
-if (!isset($_POST['title']) || empty(trim($_POST['title']))) {
+if (!isset($_POST['listingTitle']) || empty($title)) {
     $_SESSION['status_message'] = "Listing title cannot be empty.";
     header("Location: add-listing.php");
     exit();
 }
-if (!isset($_POST['desc']) || empty(trim($_POST['desc']))) {
+if (!isset($_POST['listingDescription']) || empty($desc)) {
     $_SESSION['status_message'] = "Listing description cannot be empty.";
     header("Location: add-listing.php");
     exit();
 }
 
-$title = trim($_POST['title']);
-$desc = trim($_POST['desc']);
+// check the listing does not already exist
 
-        $query = "INSERT INTO `landlistings`(`user_id`, `title`, `description`) VALUES ('$uid','?','?')";
+$stmt = $link->prepare('SELECT listing_id FROM landlistings WHERE title = ?');
+$stmt->bind_param('s', $title);
+$stmt->execute();
+$stmt->store_result();
+
+if ($stmt->num_rows > 0) {
+    // listing already exists
+    $_SESSION['status_message'] = 'Listing with this title already exists!';
+    $stmt->close();
+    header('Location: add-listing.php');
+    exit();
+}
+else{
+    $stmt->close();
+    // add new listing to database
+
+        $query = "INSERT INTO `landlistings`(`user_id`, `title`, `description`) VALUES (?, ?, ?)";
         $stmt = $link->prepare($query);
-        $stmt->bind_param("ss", $title, $desc);
+        $stmt->bind_param("iss", $uid, $title, $desc);
         $stmt->execute();
         $stmt->close();
 
+        header('Location: add-listing.php');
         exit();
+}
 ?>

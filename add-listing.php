@@ -28,7 +28,7 @@
         <h2>Add Listing</h2>
 
         <!-- Listing Information Section -->
-        <form id="addListingForm" action="addListingController.php" method="POST" onsubmit="saveChanges(event)">
+        <form action="addListingController.php" method="POST" onsubmit="saveChanges(event)">
             <input type="text" name="listingTitle" placeholder="Listing Title" class="input-field" required>
             <textarea name="listingDescription" placeholder="Listing Description" class="input-field" rows="3" required></textarea>
 
