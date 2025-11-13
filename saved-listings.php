@@ -1,3 +1,18 @@
+<?php 
+include 'connect_db.php';
+session_start();
+$uid = $_SESSION['id'];
+
+$saves = $link->prepare("SELECT s.user_id, s.listing_id, l.title, l.time_created
+FROM listing_save s
+INNER JOIN landlistings l ON l.listing_id = s.listing_id
+WHERE s.user_id = $uid");
+
+$saves->execute();
+$saves->store_result();
+$saves->bind_result($userID, $listingID, $title, $time);
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -63,7 +78,15 @@
                 </tr>
             </thead>
             <tbody id="savedListingsBody">
-                <!-- Populated dynamically -->
+                <?php while($saves->fetch()) : ?>
+                <tr>
+                    <td><?= htmlspecialchars($title) ?></td>
+                    <td><?= htmlspecialchars(date("d/m/Y", strtotime($time))) ?></td>
+                    <td>
+                        <span class="star saved">⭐</span>
+                    </td>
+                <?php endwhile; ?>
+                </tr>
             </tbody>
         </table>
 
@@ -75,11 +98,11 @@
 
     <script>
         // Example saved listings data (can replace with backend data)
-        const savedListings = [
-            { title: "Wind Farm", dateAdded: "2024-10-01", saved: true },
-            { title: "Solar Panel site", dateAdded: "2024-09-18", saved: true },
-            { title: "Tidal Power", dateAdded: "2024-09-25", saved: true },
-        ];
+        // const savedListings = [
+        //     { title: "Wind Farm", dateAdded: "2024-10-01", saved: true },
+        //     { title: "Solar Panel site", dateAdded: "2024-09-18", saved: true },
+        //     { title: "Tidal Power", dateAdded: "2024-09-25", saved: true },
+        // ];
 
         const tableBody = document.getElementById('savedListingsBody');
         const messageArea = document.getElementById('messageArea');
