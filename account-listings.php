@@ -1,21 +1,25 @@
 <!--import Header Placeholder-->
 <!--php Read Database and assign values to variables-->
 <?php
-$comments = $conn->prepare("SELECT
+include 'connect_db.php';
+session_start();
+$uid = $_SESSION['id'];
+
+$listings = $link->prepare("SELECT
 listing_id,
 time_created,
 time_updated,
-description,
-grid_id
-FROM listings
+title,
+description
+FROM landlistings
 WHERE user_id = ?
 "
 );
 
-$comments->bind_param("i", $uid);
-$comments->execute(); // Execute the query
-$comments->store_result(); // Store the result for later use
-$comments->bind_result($listingId, $timeCreated, $timeUpdated, $description, $gridId); // Bind the results to variables
+$listings->bind_param("i", $uid);
+$listings->execute(); // Execute the query
+$listings->store_result(); // Store the result for later use
+$listings->bind_result($listingId, $timeCreated, $timeUpdated, $title, $description); // Bind the results to variables
 ?>
 
 <!DOCTYPE html>
@@ -91,7 +95,8 @@ $comments->bind_result($listingId, $timeCreated, $timeUpdated, $description, $gr
       <thead>
         <tr style="background-color: #f2f2f2;">
           <th style="padding: 12px; border-bottom: 2px solid #000;">Date</th>
-          <th style="padding: 12px; border-bottom: 2px solid #000;">Location</th>
+          <th style="padding: 12px; border-bottom: 2px solid #000;">Title</th>
+          <th style="padding: 12px; border-bottom: 2px solid #000;">Description</th>
           <th style="padding: 12px; border-bottom: 2px solid #000;">Documents/Info</th>
         </tr>
       </thead>
@@ -101,8 +106,8 @@ $comments->bind_result($listingId, $timeCreated, $timeUpdated, $description, $gr
         <?php while($listings->fetch()) : ?>
       <tr>
         <td class="px-4 py-2 font-medium whitespace-nowrap text-gray-900"> <?= htmlspecialchars($timeCreated) ?></td>
+        <td class="px-4 py-2 whitespace-nowrap text-gray-700"><?= htmlspecialchars($title) ?></td>
         <td class="px-4 py-2 whitespace-nowrap text-gray-700"><?= htmlspecialchars($description) ?></td>
-        <td class="px-4 py-2 whitespace-nowrap text-gray-700"><?= htmlspecialchars($gridId) ?></td>
         <td class="px-4 py-2 whitespace-nowrap">
           <a
             href="edit-listing?lid=<?=$listingId?>"
