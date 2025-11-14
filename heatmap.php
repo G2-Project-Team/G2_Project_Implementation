@@ -22,7 +22,7 @@
   <?php include 'includes/nav.php'; ?>
 
   <div style="text-align: center; padding: 10px;">
-    <button id="viewToggle" type="button" aria-pressed="false">Toggle view</button>
+    <button id="viewToggle" type="button" class="button" aria-pressed="false">Toggle view</button>
   </div>
 
   <div class="map-card">
