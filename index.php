@@ -77,19 +77,17 @@
     </div>
     </div>
 
-    <div class="middle-container"> 
+    <div class="image-container" style="margin-bottom: 500px;"> 
       <div id="LO_image">
-      <img src="homepage.png" alt="homepage" class="pic" />
+      <img src="images\forest.jpg" alt="homepage" class="pic" />
       </div>
 
       <div class="vertical_stack">
-        <div id="LI_image_HM">
-        <img src="HM.png" alt="heat map" class="pic" />
-        <a href="heatmap.html" class="button">Heat Map</a>
+        <div id="LI_image_HM">      
+        <a href="heatmap.php" class="button">Heat Map</a>
         </div>
 
         <div id="LI_image_LL">
-        <img src="LL.png" alt="Land Listings" class="pic" />
         <a href="listings.html" class="button">Land Listings</a>
         </div>
       </div>
