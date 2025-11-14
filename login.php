@@ -22,7 +22,7 @@
           integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
           crossorigin="anonymous">
 
-    <!-- Your combined stylesheet -->
+    <!-- combined stylesheet -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>

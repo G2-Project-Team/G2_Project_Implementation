@@ -8,10 +8,7 @@ $uid = $_SESSION['id'];
 
 $listings = $link->prepare("SELECT
 listing_id,
-time_created,
-time_updated,
-title,
-description
+time_created
 FROM landlistings
 WHERE user_id = ?
 "
@@ -20,7 +17,7 @@ WHERE user_id = ?
 $listings->bind_param("i", $uid);
 $listings->execute(); // Execute the query
 $listings->store_result(); // Store the result for later use
-$listings->bind_result($listingId, $timeCreated, $timeUpdated, $title, $description); // Bind the results to variables
+$listings->bind_result($listingId, $timeCreated); // Bind the results to variables
 ?>
 
 <!DOCTYPE html>
@@ -29,6 +26,14 @@ $listings->bind_result($listingId, $timeCreated, $timeUpdated, $title, $descript
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Account Listings</title>
+  <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+          integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
+          crossorigin="anonymous">
+
+    <!-- combined stylesheet -->
+    <link rel="stylesheet" href="styles.css">
   <style>
     body {
       margin: 0;
@@ -107,8 +112,8 @@ $listings->bind_result($listingId, $timeCreated, $timeUpdated, $title, $descript
         <?php while($listings->fetch()) : ?>
       <tr>
         <td class="px-4 py-2 font-medium whitespace-nowrap text-gray-900"> <?= htmlspecialchars($timeCreated) ?></td>
-        <td class="px-4 py-2 whitespace-nowrap text-gray-700"><?= htmlspecialchars($title) ?></td>
-        <td class="px-4 py-2 whitespace-nowrap text-gray-700"><?= htmlspecialchars($description) ?></td>
+        <td class="px-4 py-2 whitespace-nowrap text-gray-700"></td>
+        <td class="px-4 py-2 whitespace-nowrap text-gray-700"></td>
         <td class="px-4 py-2 whitespace-nowrap">
           <a
             href="edit-listing?lid=<?=$listingId?>"
