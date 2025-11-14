@@ -2,6 +2,7 @@
 <!--php Read Database and assign values to variables-->
 <?php
 include 'connect_db.php';
+include 'includes/nav.php';
 session_start();
 $uid = $_SESSION['id'];
 

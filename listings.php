@@ -26,15 +26,9 @@ while ($row = $listingsResult->fetch_assoc()) {
     <link rel = "stylesheet" href = "styles.css">
 </head>
 <body>
+   <?php include 'includes/nav.php'; ?>
+
     <div class = "page-container">
-        <header class = "header">
-            <img src = "logo-placeholder.png" alt = "Logo" class = "logo">
-            <nav>
-                <a href = "heatmap.php">Map</a>
-                <a href = "account-details.php">Profile</a>
-                <a href = "logoutController.php">Logout</a>
-            </nav>
-        </header>
 
         <div class = "content-wrapper">
 

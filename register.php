@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <?php include 'includes/nav.php'; ?>
 
     <div class="login-container">
         <img src="logo-placeholder.png" alt="Company Logo" class="logo">
@@ -33,7 +34,7 @@
             <input type="text" name="username" placeholder="Username" class="input-field" required>
             <input type="password" name="password" placeholder="Password" class="input-field" required>
 
-            <input type="submit" class="button">Sign Up</button>
+            <input type="submit" value="Sign Up" class="button">
         </form>
 
         <a href="login.php" class="create-account">Already have an account? Login here</a>

@@ -65,6 +65,7 @@
 </head>
 
 <body>
+<?php include 'includes/nav.php'; ?>
 
 <!--Navigation Links need to be set up in index?                                 -->
   <div class="container" >

@@ -12,12 +12,11 @@
   <script src="https://unpkg.com/chroma-js@2.4.2/chroma.min.js"></script>
 </head>
 <body>
-  <header>
-    <h1>Heatmap</h1>
-      <div>
-      <button id="viewToggle" type="button" aria-pressed="false">Toggle view</button>
-      </div>
-  </header>
+  <?php include 'includes/nav.php'; ?>
+
+  <div style="text-align: center; padding: 10px;">
+    <button id="viewToggle" type="button" aria-pressed="false">Toggle view</button>
+  </div>
 
   <div class="map-card">
     <div id="map" role="application" aria-label="Heatmap"></div>

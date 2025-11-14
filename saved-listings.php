@@ -64,6 +64,7 @@ $saves->bind_result($userID, $listingID, $title, $time);
     </style>
 </head>
 <body>
+    <?php include 'header.php'; ?>
 
     <div class="login-container">
         <img src="logo-placeholder.png" alt="Company Logo" class="logo">

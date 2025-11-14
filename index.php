@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Home Page</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+
   <link rel="stylesheet" href="styles.css" />
   
 
@@ -50,27 +53,7 @@
 
 
 <body>
-  <header>
-
-    <nav class="navbar">
-      <div class="nav-left">
-        <a href="index.html">
-          <img src="logo.png" alt="Logo" class="nav-image" />
-        </a>
-      </div>
-
-      <div class="nav-center">
-        <h1 class="page-title">Home</h1>
-      </div>
-
-      <div class="nav-right">
-        <div id="auth-links">
-        <a href="login.php" class="nav-link">Login</a>
-        <a href="register.php" class="nav-link">Register</a>
-        </div>
-      </div>
-    </nav>
-  </header>
+  <?php include 'includes/nav.php'; ?>
 
 
   <section class="content-wrapper">
@@ -140,5 +123,6 @@
 
 </body>
 </html>
+<?php include 'includes\footer.php'; ?>
 
 
