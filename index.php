@@ -88,7 +88,7 @@
         </div>
 
         <div id="LI_image_LL">
-        <a href="listings.html" class="button">Land Listings</a>
+        <a href="listings.php" class="button">Land Listings</a>
         </div>
       </div>
 

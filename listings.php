@@ -34,28 +34,18 @@ while ($row = $listingsResult->fetch_assoc()) {
 </head>
 <body>
    <?php include 'includes/nav.php'; ?>
+<!-- Align container     to center -->
+    <div class = "page-container" style ="justify-content: center; align-items: center;">
 
-    <div class = "page-container">
+        <div class = "content-wrapper" >
 
-        <div class = "content-wrapper">
-
-            <aside class = filters">
-                <h3>Filter Listings</h3>
-                <input type = "text" class = "input-field" placeholder = "Search by location...">
-                <select class = "input-field">
-                    <option value = "date_desc">Sort by Newest</option>
-                    <option value = "date_asc">Sort by Oldest</option>
-                </select>
-                <button class = "button">Apply Filters</button>
-            </aside>
-
-            <main class = "listings-main">
+            <main class = "listings-main" style="margin-bottom:20px;"> 
                 <div class = "listings-header">
                     <h2>Available Land Listings</h2>
                     <a href = "edit-listing.php" class = "button add-lisitng-btn">Add new Listing</a>
                 </div>
 
-                <table class = "listings-table">
+                <table class = "listings-table" style="margin-bottom:20px;">
                     <thead>
                         <!-- Display all users listings -->
                         <tr>
@@ -64,7 +54,7 @@ while ($row = $listingsResult->fetch_assoc()) {
                             <th>Date Added</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody >
                         <?php foreach ($listingsArray as $listing): ?>
                             <tr>
                                 <?php $grid_id = $listing['lat'] . " ," . $listing['long'] ; ?>
