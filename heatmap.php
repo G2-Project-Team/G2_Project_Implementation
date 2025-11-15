@@ -29,7 +29,74 @@
     <div id="map" role="application" aria-label="Heatmap"></div>
   </div>
 
+  <!-- Grid Information Container -->
+  <div class="container mt-4">
+    <div class="card" id="gridInfoCard" style="display: none;">
+      <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Selected Location Information</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <p><strong>Grid ID:</strong> <span id="displayGridId">-</span></p>
+            <p><strong>Coordinates:</strong> <span id="displayCoords">-</span></p>
+          </div>
+          <div class="col-md-6">
+            <p><strong>Average Windspeed:</strong> <span id="displayWindspeed">-</span></p>
+            <p><strong>Average Luminosity:</strong> <span id="displayLuminosity">-</span></p>
+          </div>
+        </div>
+        <?php if (isset($_SESSION['id'])): ?>
+        <div class="mt-3">
+          <button id="addListingBtn" class="btn btn-success" onclick="addListingAtLocation()">
+            Add Listing at This Location
+          </button>
+        </div>
+        <?php else: ?>
+        <div class="mt-3">
+          <p class="text-muted">Please <a href="login.php">login</a> to add a listing at this location.</p>
+        </div>
+        <?php endif; ?>
+      </div>
+    </div>
+  </div>
+
 <script>
+// Global variable to store selected grid data
+let selectedGridData = null;
+
+function addListingAtLocation() {
+  if (!selectedGridData) {
+    alert('Please select a location on the map first.');
+    return;
+  }
+
+  // Redirect to add listing page with grid data
+  const params = new URLSearchParams({
+    grid_id: selectedGridData.grid_id,
+    lat: selectedGridData.lat,
+    lon: selectedGridData.lon
+  });
+  window.location.href = 'add-listing.php?' + params.toString();
+}
+
+function updateGridInfo(gridId, coords, windspeed, luminosity) {
+  document.getElementById('displayGridId').textContent = gridId;
+  document.getElementById('displayCoords').textContent = coords;
+  document.getElementById('displayWindspeed').textContent = windspeed ? windspeed.toFixed(2) + ' m/s' : 'N/A';
+  document.getElementById('displayLuminosity').textContent = luminosity ? luminosity.toFixed(2) + ' lux' : 'N/A';
+  document.getElementById('gridInfoCard').style.display = 'block';
+
+  // Store the selected grid data
+  selectedGridData = {
+    grid_id: gridId,
+    lat: coords.split(',')[0].trim(),
+    lon: coords.split(',')[1].trim(),
+    windspeed: windspeed,
+    luminosity: luminosity
+  };
+}
+
 document.addEventListener('DOMContentLoaded', () => {
 
   const viewSwitch = localStorage.getItem("viewSwitch") === "true";
@@ -73,9 +140,12 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       // average the values for the cell
-        const lum = rows.reduce((s, r) => s + Number(r.average_luminosity), 0) / rows.length
+        const lum = rows.reduce((s, r) => s + Number(r.average_luminosity), 0) / rows.length;
+        const wind = rows.reduce((s, r) => s + Number(r.average_windspeed), 0) / rows.length;
+        const centerLat = rows.reduce((s, r) => s + Number(r.lat), 0) / rows.length;
+        const centerLon = rows.reduce((s, r) => s + Number(r.lon), 0) / rows.length;
 
-        features.push({type: 'Feature', properties: { grid_id: gridId, average_luminosity: lum }, geometry: { type: 'Polygon', coordinates: [coords] }});
+        features.push({type: 'Feature', properties: { grid_id: gridId, average_luminosity: lum, average_windspeed: wind, center_lat: centerLat, center_lon: centerLon }, geometry: { type: 'Polygon', coordinates: [coords] }});
       }
     return { type: 'FeatureCollection', features };
   }
@@ -103,7 +173,14 @@ document.addEventListener('DOMContentLoaded', () => {
       onEachFeature: (feature, layer) => {
         const p = feature.properties;
         layer.bindPopup(`<b>Grid</b>: ${p.grid_id}<br><b>Luminosity</b>: ${p.average_luminosity}`);
-        layer.on({mouseover(e) { e.target.setStyle({ weight: 1.8, color: '#111' }); }, mouseout(e) { geojsonLayer.resetStyle(e.target); }});
+        layer.on({
+          mouseover(e) { e.target.setStyle({ weight: 1.8, color: '#111' }); },
+          mouseout(e) { geojsonLayer.resetStyle(e.target); },
+          click(e) {
+            const coords = `${p.center_lat.toFixed(6)}, ${p.center_lon.toFixed(6)}`;
+            updateGridInfo(p.grid_id, coords, p.average_windspeed, p.average_luminosity);
+          }
+        });
       }
     }).addTo(map);
 
@@ -163,9 +240,12 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       // average the values for the cell
-        const wind = rows.reduce((s, r) => s + Number(r.average_windspeed), 0) / rows.length
+        const wind = rows.reduce((s, r) => s + Number(r.average_windspeed), 0) / rows.length;
+        const lum = rows.reduce((s, r) => s + Number(r.average_luminosity), 0) / rows.length;
+        const centerLat = rows.reduce((s, r) => s + Number(r.lat), 0) / rows.length;
+        const centerLon = rows.reduce((s, r) => s + Number(r.lon), 0) / rows.length;
 
-        features.push({type: 'Feature', properties: { grid_id: gridId, average_windspeed: wind }, geometry: { type: 'Polygon', coordinates: [coords] }});
+        features.push({type: 'Feature', properties: { grid_id: gridId, average_windspeed: wind, average_luminosity: lum, center_lat: centerLat, center_lon: centerLon }, geometry: { type: 'Polygon', coordinates: [coords] }});
       }
     return { type: 'FeatureCollection', features };
   }
@@ -193,7 +273,14 @@ document.addEventListener('DOMContentLoaded', () => {
       onEachFeature: (feature, layer) => {
         const p = feature.properties;
         layer.bindPopup(`<b>Grid</b>: ${p.grid_id}<br><b>Windspeed</b>: ${p.average_windspeed}`);
-        layer.on({mouseover(e) { e.target.setStyle({ weight: 1.8, color: '#111' }); }, mouseout(e) { geojsonLayer.resetStyle(e.target); }});
+        layer.on({
+          mouseover(e) { e.target.setStyle({ weight: 1.8, color: '#111' }); },
+          mouseout(e) { geojsonLayer.resetStyle(e.target); },
+          click(e) {
+            const coords = `${p.center_lat.toFixed(6)}, ${p.center_lon.toFixed(6)}`;
+            updateGridInfo(p.grid_id, coords, p.average_windspeed, p.average_luminosity);
+          }
+        });
       }
     }).addTo(map);
 
@@ -229,6 +316,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 </script>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

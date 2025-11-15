@@ -1,3 +1,9 @@
+<?php
+// Get grid location data from URL parameters
+$grid_id = isset($_GET['grid_id']) ? htmlspecialchars($_GET['grid_id']) : null;
+$lat = isset($_GET['lat']) ? htmlspecialchars($_GET['lat']) : null;
+$lon = isset($_GET['lon']) ? htmlspecialchars($_GET['lon']) : null;
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,10 +39,26 @@
 
     <div class="login-container">
         <img src="logo-placeholder.png" alt="Company Logo" class="logo">
-        <h2>Add Listing</h2>
+        <h2>Add Listing </h2>
+        <h3><?php echo $grid_id ? "Grid Location $grid_id ($lat, $lon)" : ""; ?></h3>
+
+        <?php if ($grid_id && $lat && $lon): ?>
+        <!-- Grid Location Information -->
+        <div class="alert alert-info" role="alert">
+            <h5 class="alert-heading">Adding Listing at Grid Location <?php echo $grid_id; ?> (<?php echo $lat; ?>, <?php echo $lon; ?>)</h5>
+            <p class="mb-0">You are adding a listing at the selected location from the heatmap.</p>
+        </div>
+        <?php endif; ?>
 
         <!-- Listing Information Section -->
         <form action="addListingController.php" method="POST" onsubmit="saveChanges(event)">
+            <!-- Hidden fields to store grid location data -->
+            <?php if ($grid_id && $lat && $lon): ?>
+            <input type="hidden" name="grid_id" value="<?php echo $grid_id; ?>">
+            <input type="hidden" name="latitude" value="<?php echo $lat; ?>">
+            <input type="hidden" name="longitude" value="<?php echo $lon; ?>">
+            <?php endif; ?>
+
             <input type="text" name="listingTitle" placeholder="Listing Title" class="input-field" required>
             <textarea name="listingDescription" placeholder="Listing Description" class="input-field" rows="3" required></textarea>
 

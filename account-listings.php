@@ -3,12 +3,15 @@
 <?php
 include 'connect_db.php';
 include 'includes/nav.php';
-session_start();
+
 $uid = $_SESSION['id'];
 
 $listings = $link->prepare("SELECT
 listing_id,
-time_created
+time_created,
+title,
+description,
+grid_id
 FROM landlistings
 WHERE user_id = ?
 "
@@ -17,7 +20,7 @@ WHERE user_id = ?
 $listings->bind_param("i", $uid);
 $listings->execute(); // Execute the query
 $listings->store_result(); // Store the result for later use
-$listings->bind_result($listingId, $timeCreated); // Bind the results to variables
+$listings->bind_result($listingId, $timeCreated, $title, $description, $gridId); // Bind the results to variables
 ?>
 
 <!DOCTYPE html>
@@ -35,63 +38,82 @@ $listings->bind_result($listingId, $timeCreated); // Bind the results to variabl
     <!-- combined stylesheet -->
     <link rel="stylesheet" href="styles.css">
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-    }
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
 
-    /* Main container */
-    .container {
-      display: flex;
-      height: 100vh; /* Full height */
-    }
-    
-    /* Left Panel for links */
-    .nav {
-      width: 200px;           /* fixed width */
-      background-color: white;
-      color: black;
-      padding: 20px;
-      border-right: 3px solid black;
-      display:flex;
-      flex-direction: column;
-      align-items: center;
-    }
+  /* Main container */
+  .account-layout {
+    display: flex;
+    min-height: 100vh;      /* Full page height */
+    width: 100%;            /* Take full width */
+  }
 
-    .nav a {
-      color: black;
-      text-decoration: none;
-      display: block;
-      margin-bottom: 50px;
-      font-size: 20px;
-    }
+  /* Left Panel for links */
+  .nav {
+    width: 200px;
+    background-color: #45A583;
+    color: white;
+    padding: 20px;
+    border-right: 3px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
-    .nav a:hover {
-      text-decoration: underline; /* Underline as described in Wireframe  */
-    }
+  .nav a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 50px;
+    font-size: 20px;
+  }
 
-    /* Right Panel for content*/
-    .content {
-      flex: 1; /* fills the remaining space */
-      padding: 20px;
-      background-color: white;
-    }
-  </style>
+  .nav a:hover {
+    text-decoration: underline;
+  }
+
+  /* Right Panel for content */
+  .content {
+    flex: 1;               /* Fill remaining space */
+    padding: 10px;
+    background-color: white;
+  }
+
+  .logout-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background: seagreen;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    width: 100%;
+    max-width: 200px;
+  }
+
+  .logout-btn:hover {
+    opacity: 0.9;
+    cursor: pointer;
+  }
+</style>
 </head>
 
 <body>
 
 <!--Navigation Links need to be set up in index?                                 -->
-  <div class="container" >
+  <div class="account-layout" >
     <div class="nav" style="font-size: 30px; font-weight: bold;">
       <a href="account-details.php" style="margin-top: 250px;">Account Details</a>
       <a href="account-listings.php" style="margin-bottom: 50px;">Listings</a>
       <a href="saved-listings.php" style="margin-bottom: 50px;">Saved Listings</a>
+
     </div>
 
     <!--Right Panel-->
     <div class="content">
-  <div style="display: flex; justify-content: center; margin-top: 250px;">
+  <div style="display: flex; justify-content: center; margin-top: 50px;">
     <h1>My Listings</h1>
   </div>
 
@@ -103,7 +125,9 @@ $listings->bind_result($listingId, $timeCreated); // Bind the results to variabl
           <th style="padding: 12px; border-bottom: 2px solid #000;">Date</th>
           <th style="padding: 12px; border-bottom: 2px solid #000;">Title</th>
           <th style="padding: 12px; border-bottom: 2px solid #000;">Description</th>
-          <th style="padding: 12px; border-bottom: 2px solid #000;">Documents/Info</th>
+          <th style="padding: 12px; border-bottom: 2px solid #000;">Grid ID</th>
+          <th style="padding: 12px; border-bottom: 2px solid #000;">Actions</th>
+
         </tr>
       </thead>
       <tbody>
@@ -112,8 +136,9 @@ $listings->bind_result($listingId, $timeCreated); // Bind the results to variabl
         <?php while($listings->fetch()) : ?>
       <tr>
         <td class="px-4 py-2 font-medium whitespace-nowrap text-gray-900"> <?= htmlspecialchars($timeCreated) ?></td>
-        <td class="px-4 py-2 whitespace-nowrap text-gray-700"></td>
-        <td class="px-4 py-2 whitespace-nowrap text-gray-700"></td>
+        <td class="px-4 py-2 whitespace-nowrap text-gray-700"> <?= htmlspecialchars($title) ?></td>
+        <td class="px-4 py-2 whitespace-nowrap text-gray-700"><?= htmlspecialchars($description) ?></td>
+        <td class="px-4 py-2 whitespace-nowrap"><?= htmlspecialchars($gridId) ?></td>
         <td class="px-4 py-2 whitespace-nowrap">
           <a
             href="edit-listing?lid=<?=$listingId?>"

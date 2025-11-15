@@ -27,84 +27,101 @@
 
     <!-- combined stylesheet -->
     <link rel="stylesheet" href="styles.css">
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-    }
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
 
-    /* Main container */
-    .container {
-      display: flex;
-      height: 100vh; /* Full height */
-    }
-    
-    /* Left Panel for links */
-    .nav {
-      width: 200px;           /* fixed width */
-      background-color: white;
-      color: black;
-      padding: 20px;
-      border-right: 3px solid black;
-      display:flex;
-      flex-direction: column;
-      align-items: center;
-    }
+  /* Main container */
+  .account-layout {
+    display: flex;
+    min-height: 100vh;      /* Full page height */
+    width: 100%;            /* Take full width */
+  }
 
-    .nav a {
-      color: black;
-      text-decoration: none;
-      display: block;
-      margin-bottom: 50px;
-      font-size: 20px;
-    }
+  /* Left Panel for links */
+  .nav {
+    width: 200px;
+    background-color: #45A583;
+    color: white;
+    padding: 20px;
+    border-right: 3px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
-    .nav a:hover {
-      text-decoration: underline; /* Underline as described in Wireframe  */
-    }
+  .nav a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 50px;
+    font-size: 20px;
+  }
 
-    /* Right Panel for content*/
-    .content {
-      flex: 1; /* fills the remaining space */
-      padding: 20px;
-      background-color: white;
-    }
-  </style>
+  .nav a:hover {
+    text-decoration: underline;
+  }
+
+  /* Right Panel for content */
+  .content {
+    flex: 1;               /* Fill remaining space */
+    padding: 10px;
+    background-color: white;
+  }
+
+  .logout-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background: seagreen;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    width: 100%;
+    max-width: 200px;
+  }
+
+  .logout-btn:hover {
+    opacity: 0.9;
+    cursor: pointer;
+  }
+</style>
+
 </head>
 
 <body>
 <?php include 'includes/nav.php'; ?>
 
-<!--Navigation Links need to be set up in index?                                 -->
-  <div class="container" >
-    <div class="nav" style="font-size: 30px; font-weight: bold;">
-      <a href="account-details.php" style="margin-top: 250px;">Account Details</a>
-      <a href="account-listings.php" style="margin-bottom: 50px;">Listings</a>
-      <a href="saved-listings.php" style="margin-bottom: 50px;">Saved Listings</a>
+<div class="account-layout">
+  <div class="nav" style="font-size: 30px; font-weight: bold;">
+    <a href="account-details.php" style="margin-top: 250px;">Account Details</a>
+    <a href="account-listings.php">Listings</a>
+    <a href="saved-listings.php">Saved Listings</a>
+  </div>
+
+  <div class="content">
+    <div style="display: flex; justify-content: center;">
+      <img src="profile-pic-placeholder.jpg"
+           alt="Profile Picture"
+           style="width:200px; height:200px; border-radius:50%; margin-bottom: 100px;">
     </div>
 
-<!--Right Panel (Profile Pic(changeable), Email(changeable), Primary Land Holding(changeable), Account Description?, Logout)-->
-    <div class="content">
-  <div style="display: flex; justify-content: center;">
-    <img src="profile-pic-placeholder.jpg" 
-         alt="Profile Picture" 
-         style="width:200px; height:200px; border-radius:50%; margin-bottom: 100px;">
-  </div>
+    <div style="display:flex; flex-direction:column; align-items:center;">
+      <h2>Email: <?php echo $email; ?></h2>
+      <a href="javascript:changeEmail();" style="font-size:16px; color:blue; margin-top:-20px;">Change Email</a>
+    </div>
 
-  <div style="display: flex; flex-direction: column; align-items: center;">
-    <h2>Email: <?php echo $email; ?></h2>
-    <a href="javascript:changeEmail();" style="font-size: 16px; color: blue; margin-top: -20px;">Change Email</a>
-  </div>
-  
-   <div style="display: flex; flex-direction: column; align-items: center;">
-    <h2>Username: <?php echo $username; ?></h2>
-    
-  </div>
+    <div style="display:flex; flex-direction:column; align-items:center;">
+      <h2>Username: <?php echo $username; ?></h2>
+    </div>
 
-  <div style="display: flex; flex-direction: column; align-items: center;">
-    <textarea rows="4" cols="50" placeholder="Account Description..." style="margin-top: 50px;"></textarea>
-
-    <a href="javascript:logout();" style="font-size: 16px; color: blue; margin-top: 50px;">Logout</a><!--Add confirmation dialog, Link required to forgot password page-->
+    <div style="display:flex; flex-direction:column; align-items:center; padding:20px;">
+      <textarea rows="4" cols="50" placeholder="Account Description..." style="margin-top:50px;"></textarea>
+      <!-- logout button -->
+      <button onclick="logout()" class="logout-btn">Logout</button>
+    </div>
   </div>
 </div>
 

@@ -4,6 +4,9 @@ session_start();
 $uid = $_SESSION['id'];
 $title = trim($_POST['listingTitle']);
 $desc = trim($_POST['listingDescription']);
+$grid_id = isset($_POST['grid_id']) ? trim($_POST['grid_id']) : null;
+$lat = isset($_POST['latitude']) ? trim($_POST['latitude']) : null;
+$lon = isset($_POST['longitude']) ? trim($_POST['longitude']) : null;
 
 
 // Validate and sanitise POST content
@@ -36,9 +39,9 @@ else{
     $stmt->close();
     // add new listing to database
 
-        $query = "INSERT INTO `landlistings`(`user_id`, `title`, `description`) VALUES (?, ?, ?)";
+        $query = "INSERT INTO `landlistings`(`user_id`, `title`, `description`, `grid_id`) VALUES (?, ?, ?, ?)";
         $stmt = $link->prepare($query);
-        $stmt->bind_param("iss", $uid, $title, $desc);
+        $stmt->bind_param("issi", $uid, $title, $desc, $grid_id);
         $stmt->execute();
         $stmt->close();
 
