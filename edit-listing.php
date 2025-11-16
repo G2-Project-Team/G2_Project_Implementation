@@ -1,6 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<?php   
+
+session_start();
+include 'connect_db.php';   
+
+
+    
+    $uid = $_SESSION['id'];
+    $listing_id = $_GET['listing_id'];
+    // Fetch listing details
+    $stmt = $link->prepare("SELECT title, description, listing_id FROM landlistings WHERE listing_id = ? AND user_id = ?");
+    $stmt->bind_param("ii", $listing_id, $uid);
+    $stmt->execute();
+    $stmt->bind_result($title, $description, $listing_id);
+    $stmt->fetch();
+    $stmt->close();
+?>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Listing</title>
@@ -36,10 +53,10 @@
         <h2>Edit Listing</h2>
 
         <!-- Listing Information Section -->
-        <form id="editListingForm" action="#" method="POST" onsubmit="saveChanges(event)">
-            <input type="text" name="listingTitle" placeholder="Listing Title" class="input-field" required>
-            <input type="text" name="listingID" placeholder="Listing ID" class="input-field" required>
-            <textarea name="listingDescription" placeholder="Listing Description" class="input-field" rows="3" required></textarea>
+        <form id="editListingForm" action="editListingController.php" method="POST" onsubmit="editListingController(event)">
+            <input type="text" name="listingTitle" value="<?php echo htmlspecialchars($title); ?>" placeholder="Listing Title" class="input-field" required>
+            <input type="text" name="listingID" value="<?php echo htmlspecialchars($listing_id); ?>" placeholder="Listing ID" class="input-field" required readonly>
+            <textarea name="listingDescription" placeholder="Listing Description"  class="input-field" rows="3" required><?php echo htmlspecialchars($description); ?></textarea>
 
             <!-- Document Upload -->
             <label for="documentUpload"><strong>Upload New Document:</strong></label>

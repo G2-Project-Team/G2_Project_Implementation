@@ -30,22 +30,23 @@ $stmt->store_result();
 
 if ($stmt->num_rows > 0) {
     // listing already exists
-    $_SESSION['status_message'] = 'Listing with this title already exists!';
+    $_SESSION['status_message'] = 'Listing wasn\'t added!';
     $stmt->close();
     header('Location: add-listing.php');
+
     exit();
 }
 else{
     $stmt->close();
     // add new listing to database
-
+        
         $query = "INSERT INTO `landlistings`(`user_id`, `title`, `description`, `grid_id`) VALUES (?, ?, ?, ?)";
         $stmt = $link->prepare($query);
         $stmt->bind_param("issi", $uid, $title, $desc, $grid_id);
         $stmt->execute();
         $stmt->close();
-
-        header('Location: add-listing.php');
+        $_SESSION['status_message'] = 'Listing added successfully!';
+        header('Location: listings.php');
         exit();
 }
 ?>

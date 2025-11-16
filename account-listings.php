@@ -4,6 +4,9 @@
 include 'connect_db.php';
 include 'includes/nav.php';
 
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 $uid = $_SESSION['id'];
 
 $listings = $link->prepare("SELECT
@@ -18,9 +21,14 @@ WHERE user_id = ?
 );
 
 $listings->bind_param("i", $uid);
-$listings->execute(); // Execute the query
-$listings->store_result(); // Store the result for later use
-$listings->bind_result($listingId, $timeCreated, $title, $description, $gridId); // Bind the results to variables
+$listings->execute();
+$listingsResult = $listings->get_result();   // Store the result for later use
+//Bind results to an array
+$listingsArray = [];
+while ($row = $listingsResult->fetch_assoc()) {
+    $listingsArray[] = $row;
+}    
+
 ?>
 
 <!DOCTYPE html>
@@ -133,34 +141,42 @@ $listings->bind_result($listingId, $timeCreated, $title, $description, $gridId);
       <tbody>
         <!-- Example rows, replace with database content in foreach loop ? 
          Need delete controller-->
-        <?php while($listings->fetch()) : ?>
+        <?php foreach ($listingsArray as $listing): ?>
       <tr>
-        <td class="px-4 py-2 font-medium whitespace-nowrap text-gray-900"> <?= htmlspecialchars($timeCreated) ?></td>
-        <td class="px-4 py-2 whitespace-nowrap text-gray-700"> <?= htmlspecialchars($title) ?></td>
-        <td class="px-4 py-2 whitespace-nowrap text-gray-700"><?= htmlspecialchars($description) ?></td>
-        <td class="px-4 py-2 whitespace-nowrap"><?= htmlspecialchars($gridId) ?></td>
-        <td class="px-4 py-2 whitespace-nowrap">
-          <a
-            href="edit-listing?lid=<?=$listingId?>"
-            class="inline-block rounded-sm bg-indigo-600 px-4 py-2 text-xs font-medium text-white hover:bg-indigo-700"
-          >
-            Edit
-          </a>
-          <a
-
-            href="delete-listing?lid=<?=$listingId?>"
-            class="inline-block rounded-sm bg-indigo-600 px-4 py-2 text-xs font-medium text-white hover:bg-indigo-700"
-          >
-            Delete
-          </a>
+        <td class="px-4 py-2 font-medium whitespace-nowrap text-gray-900"><?= htmlspecialchars($listing['time_created']) ?></td>
+        <td class="px-4 py-2 whitespace-nowrap text-gray-700"> <?= htmlspecialchars($listing['title']) ?></td>
+        <td class="px-4 py-2 whitespace-nowrap text-gray-700"><?= htmlspecialchars($listing['description']) ?></td>
+        <td class="px-4 py-2 whitespace-nowrap"><?= htmlspecialchars($listing['grid_id']) ?></td>
+        <td>
+            
+            <a href="edit-listing.php?listing_id=<?php echo $listing['listing_id']; ?>" class="button view-btn">Edit</a>                      
+            <a href="javascript:deleteListing(<?php echo $listing['listing_id']; ?>);" onclick="deleteListing(<?php echo $listing['listing_id']; ?>)" class="button view-btn" style="background-color: red;">Delete</a>
+          
         
-
-        </td>
-      </tr>
-      <?php endwhile ?>
+          
       </tbody>
+        
+      </tr>
+      <?php endforeach ?>
     </table>
   </div>
 
+
+
   <?php include 'includes/footer.php'; ?>
+
+  <script>
+  
+
+    // delete validation functionality take a listing id as parameter
+    function deleteListing(lid) {
+      // Confirm delete action
+      if (confirm("Are you sure you want to delete this listing?")) {
+        // Redirect to delete controller with listing id
+        window.location.href = "deleteListingController.php?lid=" + lid; // Example redirect
+        alert("Listing has been deleted.");
+      }
+      
+    }
+</script>
     
