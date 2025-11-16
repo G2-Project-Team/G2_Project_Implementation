@@ -161,4 +161,6 @@ $listings->bind_result($listingId, $timeCreated, $title, $description, $gridId);
       </tbody>
     </table>
   </div>
+
+  <?php include 'includes/footer.php'; ?>
     

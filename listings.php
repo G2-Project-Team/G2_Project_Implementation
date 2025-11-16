@@ -77,3 +77,4 @@ while ($row = $listingsResult->fetch_assoc()) {
     
 </body>
 </html>
+<?php include 'includes/footer.php'; ?>

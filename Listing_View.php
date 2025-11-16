@@ -107,3 +107,4 @@ if ($saveCheckResult->num_rows > 0) {
     </div>
 </body>
 </html>
+<?php include 'includes/footer.php'; ?>

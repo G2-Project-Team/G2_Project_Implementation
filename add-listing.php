@@ -168,3 +168,4 @@ $lon = isset($_GET['lon']) ? htmlspecialchars($_GET['lon']) : null;
 
 </body>
 </html>
+<?php include 'includes/footer.php'; ?>

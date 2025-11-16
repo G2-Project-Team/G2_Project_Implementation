@@ -161,3 +161,4 @@ $saves->bind_result($userID, $listingID, $title, $time);
 
 </body>
 </html>
+<?php include 'includes/footer.php'; ?>
