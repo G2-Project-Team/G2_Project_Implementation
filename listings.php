@@ -15,6 +15,20 @@ $listingsArray = [];
 while ($row = $listingsResult->fetch_assoc()) {
     $listingsArray[] = $row;
 }   
+
+// Get list of saved listings for the logged-in user
+$savedListings = [];
+if (isset($_SESSION['id'])) {
+    $uid = $_SESSION['id'];
+    $savedStmt = $link->prepare("SELECT listing_id FROM listing_save WHERE user_id = ?");
+    $savedStmt->bind_param("i", $uid);
+    $savedStmt->execute();
+    $savedResult = $savedStmt->get_result();
+    while ($row = $savedResult->fetch_assoc()) {
+        $savedListings[] = $row['listing_id'];
+    }
+    $savedStmt->close();
+}
 ?>
 
 <!DOCTYPE html>
@@ -59,6 +73,7 @@ while ($row = $listingsResult->fetch_assoc()) {
                     <tbody >
                         <?php foreach ($listingsArray as $listing): ?>
                             <tr>
+                                
                                 <?php $grid_id = $listing['grid_id']; ?>
                                 <td><a href="Listing_View.php?listing_id=<?php echo $listing['listing_id']; ?>"><?php echo htmlspecialchars($grid_id); ?></a></td>
                                 <td><?php echo htmlspecialchars($listing['title']); ?></td>
@@ -67,7 +82,13 @@ while ($row = $listingsResult->fetch_assoc()) {
                                 <td>
                                     <a href="Listing_View.php?listing_id=<?php echo $listing['listing_id']; ?>" class="button view-btn">View Full Listing</a>
                                     <a href="#" class="button edit-btn">Contact</a>
-                                    <a href="#" class="button delete-btn">Save</a>
+                                    
+                                    
+                                    <?php if (in_array($listing['listing_id'], $savedListings)): ?>
+                                        <a href="saveListingController.php?listing_id=<?php echo $listing['listing_id']; ?>" class="button save-btn" style="background-color: #b22222;">Unsave</a>
+                                    <?php else: ?>
+                                        <a href="saveListingController.php?listing_id=<?php echo $listing['listing_id']; ?>" class="button save-btn">Save</a>
+                                    <?php endif; ?>
                             </tr>
                         <?php endforeach; ?>
                         

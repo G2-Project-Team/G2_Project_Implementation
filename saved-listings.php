@@ -101,7 +101,7 @@ $saves->bind_result($userID, $listingID, $title, $time);
         <div id="messageArea" class="message">Saved listings updated</div>
 
         <a href="heatmap.php" class="button">Back to Heatmap</a>
-        <a href="edit-listing.php" class="button">Edit a Listing</a>
+        
     </div>
 
     <script>
@@ -144,10 +144,21 @@ $saves->bind_result($userID, $listingID, $title, $time);
         }
 
         function toggleSaved(star, listing) {
+            // Toggle saved status using saveListingController.php
+            fetch(`saveListingController.php?listing_id=${listing.id}`)
+                .then(response => response.text())
+                .then(data => {
+                    // Update UI based on new saved status
+
             listing.saved = !listing.saved;
             star.textContent = listing.saved ? '⭐' : '☆';
             star.className = listing.saved ? 'star saved' : 'star unsaved';
             showMessage(listing.saved ? 'Listing re-saved.' : 'Listing removed from saved.');
+                })
+                .catch(error => {
+                    console.error('Error updating saved status:', error);
+                });
+
         }
 
         function showMessage(text) {
