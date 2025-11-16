@@ -7,7 +7,7 @@ session_start();
 // users: user_id, username, email
 // griddata: grid_id, lat, lon, avg_sun, avg_wind
 // Connect to database and fetch all land listings with associated user info
-$listings = $link->prepare("SELECT l.listing_id, l.time_created, u.username, gd.lat, gd.long FROM landlistings l JOIN users u ON l.user_id = u.user_id JOIN griddata gd ON l.listing_id = gd.grid_id ORDER BY l.time_created DESC");
+$listings = $link->prepare("SELECT l.listing_id, l.time_created, u.username, l.grid_id FROM landlistings l JOIN users u ON l.user_id = u.user_id ORDER BY l.time_created DESC");
 $listings->execute();
 $listingsResult = $listings->get_result();  
 //Bind results to an array
@@ -42,7 +42,7 @@ while ($row = $listingsResult->fetch_assoc()) {
             <main class = "listings-main" style="margin-bottom:20px;"> 
                 <div class = "listings-header">
                     <h2>Available Land Listings</h2>
-                    <a href = "edit-listing.php" class = "button add-lisitng-btn">Add new Listing</a>
+                    <a href = "heatmap.php" class = "button add-lisitng-btn">Add new Listing</a>
                 </div>
 
                 <table class = "listings-table" style="margin-bottom:20px;">
@@ -52,15 +52,20 @@ while ($row = $listingsResult->fetch_assoc()) {
                             <th>Location (Grid Ref)</th>
                             <th>Listed By</th>
                             <th>Date Added</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody >
                         <?php foreach ($listingsArray as $listing): ?>
                             <tr>
-                                <?php $grid_id = $listing['lat'] . " ," . $listing['long'] ; ?>
+                                <?php $grid_id = $listing['grid_id']; ?>
                                 <td><a href="Listing_View.php?listing_id=<?php echo $listing['listing_id']; ?>"><?php echo htmlspecialchars($grid_id); ?></a></td>
                                 <td><?php echo htmlspecialchars($listing['username']); ?></td>
                                 <td><?php echo htmlspecialchars(date("d/m/Y", strtotime($listing['time_created']))); ?></td>
+                                <td>
+                                    <a href="Listing_View.php?listing_id=<?php echo $listing['listing_id']; ?>" class="button view-btn">View Full Listing</a>
+                                    <a href="#" class="button edit-btn">Contact</a>
+                                    <a href="#" class="button delete-btn">Save</a>
                             </tr>
                         <?php endforeach; ?>
                         

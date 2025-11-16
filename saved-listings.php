@@ -19,6 +19,13 @@ $saves->bind_result($userID, $listingID, $title, $time);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Saved Listings</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+          integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
+          crossorigin="anonymous">
+
+    <!-- combined stylesheet -->
     <link rel="stylesheet" href="styles.css">
     <style>
         /* Additional styling to complement existing CSS */
@@ -64,7 +71,7 @@ $saves->bind_result($userID, $listingID, $title, $time);
     </style>
 </head>
 <body>
-    <?php include 'header.php'; ?>
+    <?php include 'includes/nav.php'; ?>
 
     <div class="login-container">
         <img src="logo-placeholder.png" alt="Company Logo" class="logo">

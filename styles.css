@@ -213,7 +213,7 @@ h2 {
 
 .button {
     display: inline-block;
-    width: 20%;
+    width: auto;
     padding: 12px;
     background-color: #2e8b57;
     color: white;
