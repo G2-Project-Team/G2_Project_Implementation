@@ -87,9 +87,17 @@
         <a href="heatmap.php" class="button">Heat Map</a>
         </div>
 
-        <div id="LI_image_LL">
-        <a href="listings.php" class="button">Land Listings</a>
+        <?php if (isset($_SESSION['id'])): ?>
+          <div id="LI_image_LL">
+          <a href="listings.php" class="button">Land Listings</a>
+         </div>
+
+        <?php else: ?>
+          <div class="mt-3">
+          <p class="text-muted">Please <a href="login.php">login</a> to view land listings.</p>
         </div>
+        <?php endif; ?>
+        
       </div>
 
     </div>
