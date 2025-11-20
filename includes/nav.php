@@ -30,11 +30,11 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
             <li class="nav-item">
                 <a class="nav-link" href="heatmap.php">Heat Map</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="listings.php">Listings</a>
-            </li>
 
             <?php if (isset($_SESSION['id'])): ?>
+                <li class="nav-item">
+                <a class="nav-link" href="listings.php">Listings</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="account-details.php">Account Details</a>
                 </li>
