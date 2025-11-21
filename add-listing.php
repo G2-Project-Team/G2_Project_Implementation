@@ -85,6 +85,13 @@ $lon = isset($_GET['lon']) ? htmlspecialchars($_GET['lon']) : null;
                 <button type="submit" class="button">Add Listing</button>
             </div>
 
+             <?php
+            if (isset($_SESSION['status_message'])) {
+                echo '<p class="status-message">' . $_SESSION['status_message'] . '</p>';
+                unset($_SESSION['status_message']);
+            }
+            ?>
+
             <!-- Feedback message -->
             <div id="messageArea" class="message" style="opacity:0;"></div>
 

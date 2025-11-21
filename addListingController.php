@@ -36,6 +36,20 @@ if ($stmt->num_rows > 0) {
 
     exit();
 }
+elseif(strlen($title) > 255){
+    $_SESSION['status_message'] = 'Listing title cannot be longer than 255 characters.';
+    $stmt->close();
+    header('Location: add-listing.php');
+
+    exit();
+}
+elseif(strlen($desc) > 65535){
+    $_SESSION['status_message'] = 'Listing title cannot be longer than 65535 characters.';
+    $stmt->close();
+    header('Location: add-listing.php');
+
+    exit();
+}
 else{
     $stmt->close();
     // add new listing to database
