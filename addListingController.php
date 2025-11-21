@@ -25,6 +25,8 @@ if (!isset($_POST['listingDescription']) || empty($desc)) {
 
 $stmt = $link->prepare('SELECT listing_id FROM landlistings WHERE title = ?');
 $stmt->bind_param('s', $title);
+
+if($stmt){
 $stmt->execute();
 $stmt->store_result();
 
@@ -63,4 +65,8 @@ else{
         header('Location: listings.php');
         exit();
 }
+} else {
+        $_SESSION['status_message'] = 'Database error';
+        header('Location: add-listing.php');
+    }
 ?>

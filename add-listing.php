@@ -48,6 +48,12 @@ $lon = isset($_GET['lon']) ? htmlspecialchars($_GET['lon']) : null;
             <h5 class="alert-heading">Adding Listing at Grid Location <?php echo $grid_id; ?> (<?php echo $lat; ?>, <?php echo $lon; ?>)</h5>
             <p class="mb-0">You are adding a listing at the selected location from the heatmap.</p>
         </div>
+        <?php else: ?>
+            <!-- Grid Location Information -->
+        <div class="alert alert-info" role="alert">
+            <h5 class="alert-heading">No grid location selected.</h5>
+            <p class="mb-0">Cannot add listing.</p>
+        </div>
         <?php endif; ?>
 
         <!-- Listing Information Section -->
@@ -81,9 +87,16 @@ $lon = isset($_GET['lon']) ? htmlspecialchars($_GET['lon']) : null;
             </table>
 
             <!-- Action Buttons -->
+
+            <?php if(!$grid_id || !$lat || !$lon): ?>
+            <div style="margin-top: 20px;">
+                <button type="submit" class="button" disabled>Cannot Add Listing</button>
+            </div>
+            <?php else: ?>
             <div style="margin-top: 20px;">
                 <button type="submit" class="button">Add Listing</button>
             </div>
+            <?php endif; ?>
 
              <?php
             if (isset($_SESSION['status_message'])) {
