@@ -43,7 +43,12 @@
 
             <input type="submit" value="Sign Up" class="button">
         </form>
-
+        <?php
+            if (isset($_SESSION['status_message'])) {
+                echo '<p class="status-message">' . $_SESSION['status_message'] . '</p>';
+                unset($_SESSION['status_message']);
+            }
+        ?>
         <a href="login.php" class="create-account">Already have an account? Login here</a>
         
     </div>
