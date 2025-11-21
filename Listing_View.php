@@ -18,6 +18,16 @@ $listingsArray = [];
 while ($row = $listingsResult->fetch_assoc()) {
     $listingsArray[] = $row;
 }
+
+if ($listingsResult->num_rows == 0) {
+    // listing does not exist
+    $_SESSION['status_message'] = 'Listing does not exist.';
+    $listings->close();
+    header('Location: listings.php');
+
+    exit();
+}
+
 // Check if listing is already saved by user
 $saveCheck = $link->prepare("SELECT * FROM listing_save WHERE user_id = ? AND listing_id = ?");
 $saveCheck->bind_param("ii", $_SESSION['id'], $_GET['listing_id']);
