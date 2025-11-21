@@ -3,6 +3,14 @@ include 'connect_db.php';
 session_start();
 $uid = $_SESSION['id'];
 
+if (!$uid) {
+    // listing does not exist
+    $_SESSION['status_message'] = 'Log in to view saved.';
+    header('Location: login.php');
+
+    exit();
+}
+
 $saves = $link->prepare("SELECT s.user_id, s.listing_id, l.title, l.time_created
 FROM listing_save s
 INNER JOIN landlistings l ON l.listing_id = s.listing_id
