@@ -99,10 +99,10 @@ $saves->bind_result($userID, $listingID, $title, $time);
                     <td><?= htmlspecialchars($title) ?></td>
                     <td><?= htmlspecialchars(date("d/m/Y", strtotime($time))) ?></td>
                     <td>
-                        <span class="star saved">⭐</span>
+                        <span class="star saved" data-listing-id="<?= $listingID ?>">⭐</span>
                     </td>
-                <?php endwhile; ?>
                 </tr>
+                <?php endwhile; ?>
             </tbody>
         </table>
 
@@ -113,60 +113,32 @@ $saves->bind_result($userID, $listingID, $title, $time);
     </div>
 
     <script>
-        // Example saved listings data (can replace with backend data)
-        // const savedListings = [
-        //     { title: "Wind Farm", dateAdded: "2024-10-01", saved: true },
-        //     { title: "Solar Panel site", dateAdded: "2024-09-18", saved: true },
-        //     { title: "Tidal Power", dateAdded: "2024-09-25", saved: true },
-        // ];
-
-        const tableBody = document.getElementById('savedListingsBody');
         const messageArea = document.getElementById('messageArea');
 
-        // Sort by date added (newest first)
-        savedListings.sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
+        // Add click event listeners to all star elements
+        document.addEventListener('DOMContentLoaded', function() {
+            const stars = document.querySelectorAll('.star');
+            stars.forEach(star => {
+                star.addEventListener('click', () => toggleSaved(star));
+            });
+        });
 
-        // Populate table
-        savedListings.forEach(listing => addListingRow(listing));
+        function toggleSaved(star) {
+            const listingId = star.getAttribute('data-listing-id');
 
-        function addListingRow(listing) {
-            const row = document.createElement('tr');
-            const titleCell = document.createElement('td');
-            const dateCell = document.createElement('td');
-            const starCell = document.createElement('td');
-
-            titleCell.textContent = listing.title;
-            dateCell.textContent = new Date(listing.dateAdded).toLocaleDateString("en-GB");
-
-            const star = document.createElement('span');
-            star.className = listing.saved ? 'star saved' : 'star unsaved';
-            star.textContent = listing.saved ? '⭐' : '☆';
-            star.addEventListener('click', () => toggleSaved(star, listing));
-
-            starCell.appendChild(star);
-
-            row.appendChild(titleCell);
-            row.appendChild(dateCell);
-            row.appendChild(starCell);
-            tableBody.appendChild(row);
-        }
-
-        function toggleSaved(star, listing) {
             // Toggle saved status using saveListingController.php
-            fetch(`saveListingController.php?listing_id=${listing.id}`)
+            fetch(`saveListingController.php?listing_id=${listingId}`)
                 .then(response => response.text())
                 .then(data => {
-                    // Update UI based on new saved status
-
-            listing.saved = !listing.saved;
-            star.textContent = listing.saved ? '⭐' : '☆';
-            star.className = listing.saved ? 'star saved' : 'star unsaved';
-            showMessage(listing.saved ? 'Listing re-saved.' : 'Listing removed from saved.');
+                    // Remove the row from the table since it's no longer saved
+                    const row = star.closest('tr');
+                    row.remove();
+                    showMessage('Listing removed from saved.');
                 })
                 .catch(error => {
                     console.error('Error updating saved status:', error);
+                    showMessage('Error updating saved status.');
                 });
-
         }
 
         function showMessage(text) {

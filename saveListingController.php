@@ -16,6 +16,17 @@ if ($stmt->num_rows > 0) {
 }
 $stmt->close();
 
+// Determine which page to redirect back to
+$referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'listings.php';
+
+// Extract just the filename from the referer URL
+$redirect_page = basename(parse_url($referer, PHP_URL_PATH));
+
+// If no valid referer or coming from external site, default to listings.php
+if (empty($redirect_page) || strpos($referer, $_SERVER['HTTP_HOST']) === false) {
+    $redirect_page = 'listings.php';
+}
+
 if ($saved) {
     // Delete the saved listing
         $query = "DELETE FROM listing_save WHERE user_id = ? AND listing_id = ?";
@@ -23,18 +34,18 @@ if ($saved) {
         $stmt->bind_param("ii", $uid, $lid);
         $stmt->execute();
     $stmt->close();
-    header("Location: listings.php");
+    header("Location: " . $redirect_page);
     exit();
 
-} 
+}
 else {
-
+        // Save the listing
         $query = "INSERT INTO `listing_save`(`user_id`, `listing_id`) VALUES (?, ?)";
         $stmt = $link->prepare($query);
         $stmt->bind_param("ii", $uid, $lid);
         $stmt->execute();
         $stmt->close();
-        header("Location: listings.php");   
+        header("Location: " . $redirect_page);
         exit();
 }
 ?>
