@@ -37,7 +37,7 @@ $stmt->store_result();
 
 if ($stmt->num_rows > 0) {
   $_SESSION['status_message'] = 'Email or username already exists';
-  header('Location: register');
+  header('Location: register.php');
   exit();
 } else {
     $stmt-> close();
@@ -59,7 +59,7 @@ if ($stmt->num_rows > 0) {
             header('Location: login.php');           
         } else {
             $_SESSION['status_message'] = 'Error creating account';
-            header('Location: register');            
+            header('Location: register.php');            
         }
         $stmt->close();
     } else {

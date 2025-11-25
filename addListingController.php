@@ -25,12 +25,28 @@ if (!isset($_POST['listingDescription']) || empty($desc)) {
 
 $stmt = $link->prepare('SELECT listing_id FROM landlistings WHERE title = ?');
 $stmt->bind_param('s', $title);
+
+if($stmt){
 $stmt->execute();
 $stmt->store_result();
 
 if ($stmt->num_rows > 0) {
     // listing already exists
     $_SESSION['status_message'] = 'Listing wasn\'t added!';
+    $stmt->close();
+    header('Location: add-listing.php');
+
+    exit();
+}
+elseif(strlen($title) > 255){
+    $_SESSION['status_message'] = 'Listing title cannot be longer than 255 characters.';
+    $stmt->close();
+    header('Location: add-listing.php');
+
+    exit();
+}
+elseif(strlen($desc) > 65535){
+    $_SESSION['status_message'] = 'Listing title cannot be longer than 65535 characters.';
     $stmt->close();
     header('Location: add-listing.php');
 
@@ -49,4 +65,8 @@ else{
         header('Location: listings.php');
         exit();
 }
+} else {
+        $_SESSION['status_message'] = 'Database error';
+        header('Location: add-listing.php');
+    }
 ?>
